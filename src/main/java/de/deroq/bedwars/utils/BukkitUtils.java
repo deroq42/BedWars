@@ -8,8 +8,8 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 public class BukkitUtils {
 
-    public static String getOnlinePlayers(int minPlayers) {
-        return "§7[§e" + Bukkit.getOnlinePlayers().size() + "§7/§e" + minPlayers + "§7]";
+    public static String getOnlinePlayers(int maxPlayers) {
+        return "§7[§e" + Bukkit.getOnlinePlayers().size() + "§7/§e" + maxPlayers + "§7]";
     }
 
     public static String locationToString(Location location) {

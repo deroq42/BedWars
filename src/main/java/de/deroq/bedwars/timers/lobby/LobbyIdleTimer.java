@@ -14,7 +14,7 @@ public class LobbyIdleTimer extends TimerTask {
 
     public LobbyIdleTimer(BedWars bedWars) {
         super(bedWars, false, 20*60*3, 20*60*3);
-        this.MIN_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMinPlayers();
+        this.MIN_PLAYERS = bedWars.getGameManager().MIN_PLAYERS;
 
         setCurrentSeconds(0);
         setTotalSeconds(TOTAL_SECONDS);

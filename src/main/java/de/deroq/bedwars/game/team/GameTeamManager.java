@@ -69,10 +69,6 @@ public class GameTeamManager {
      * @param itemStack The item the player clicked on.
      */
     public void onTeamSelection(Player player, ItemStack itemStack) {
-        if(bedWars.getGameManager().getGameState() != GameState.LOBBY) {
-            return;
-        }
-
         GameTeam gameTeam = blockToGameTeam(itemStack);
         if(gameTeam == null) {
             return;

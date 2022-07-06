@@ -5,6 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Constants {
 
     public static final String PREFIX = "§7[§eBedWars§7] ";
@@ -22,4 +25,22 @@ public class Constants {
     public static final ItemStack SPECTATOR_ITEM = new ItemBuilder(Material.COMPASS)
             .setDisplayName("§cSpieler zuschauen")
             .build();
+
+    public static final List<Material> PLACEABLE_BLOCKS = Arrays.asList(
+            Material.SANDSTONE,
+            Material.ENDER_STONE,
+            Material.ENDER_CHEST,
+            Material.CHEST,
+            Material.IRON_BLOCK,
+            Material.WEB,
+            Material.GLASS,
+            Material.GLOWSTONE,
+            Material.LADDER,
+            Material.TNT,
+            Material.FIRE,
+            Material.PACKED_ICE,
+            Material.CAKE_BLOCK
+    );
+
+    public static final List<Material> BREAKABLE_BLOCKS = PLACEABLE_BLOCKS;
 }

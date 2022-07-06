@@ -1,4 +1,4 @@
-package de.deroq.ttt.config.models;
+package de.deroq.bedwars.config.models;
 
 import de.deroq.bedwars.config.Config;
 

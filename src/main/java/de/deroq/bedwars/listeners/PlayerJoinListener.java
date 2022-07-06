@@ -13,11 +13,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerJoinListener implements Listener {
 
     private final BedWars bedWars;
-    private final int MIN_PLAYERS;
 
     public PlayerJoinListener(BedWars bedWars) {
         this.bedWars = bedWars;
-        this.MIN_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMinPlayers();
     }
 
     @EventHandler
@@ -30,7 +28,7 @@ public class PlayerJoinListener implements Listener {
 
         GamePlayer gamePlayer = GamePlayer.create(player.getUniqueId());
         if(bedWars.getGameManager().getGameState() == GameState.LOBBY) {
-            BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde betreten " + BukkitUtils.getOnlinePlayers(MIN_PLAYERS));
+            BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde betreten " + BukkitUtils.getOnlinePlayers(bedWars.getGameManager().MAX_PLAYERS));
             bedWars.getGameManager().teleportToLobby(player);
             bedWars.getGameManager().initLobbyTimer();
             return;

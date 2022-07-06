@@ -1,4 +1,4 @@
-package de.deroq.bedwars.listeners;
+package de.deroq.bedwars.listeners.misc;
 
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.models.GamePlayer;
@@ -7,35 +7,25 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import java.util.Optional;
 
-public class InventoryClickListener implements Listener {
+public class PlayerPickUpItemListener implements Listener {
 
     private final BedWars bedWars;
 
-    public InventoryClickListener(BedWars bedWars) {
+    public PlayerPickUpItemListener(BedWars bedWars) {
         this.bedWars = bedWars;
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-        ItemStack itemStack = event.getCurrentItem();
-
-        if(itemStack == null || !itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
-            return;
-        }
+    public void onPlayerPickUpItem(PlayerPickupItemEvent event) {
+        Player player = event.getPlayer();
 
         if(bedWars.getGameManager().getGameState() != GameState.INGAME) {
             if(player.getGameMode() != GameMode.CREATIVE) {
                 event.setCancelled(true);
-            }
-
-            if(event.getClickedInventory().getTitle().equals("§8Team auswählen")) {
-                bedWars.getGameTeamManager().onTeamSelection(player, itemStack);
             }
             return;
         }

@@ -1,7 +1,7 @@
 package de.deroq.bedwars.config;
 
 import com.google.gson.Gson;
-import de.deroq.ttt.config.models.SettingsConfig;
+import de.deroq.bedwars.config.models.SettingsConfig;
 
 import java.io.*;
 import java.util.Arrays;

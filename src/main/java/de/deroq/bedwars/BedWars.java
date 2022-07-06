@@ -8,11 +8,9 @@ import de.deroq.bedwars.config.FileManager;
 import de.deroq.bedwars.game.GameManager;
 import de.deroq.bedwars.game.map.GameMapManager;
 import de.deroq.bedwars.game.team.GameTeamManager;
-import de.deroq.bedwars.listeners.InventoryClickListener;
-import de.deroq.bedwars.listeners.PlayerInteractListener;
-import de.deroq.bedwars.listeners.PlayerJoinListener;
-import de.deroq.bedwars.listeners.PlayerQuitListener;
+import de.deroq.bedwars.listeners.*;
 import de.deroq.bedwars.listeners.bedwars.BedWarsDropOutListener;
+import de.deroq.bedwars.listeners.misc.*;
 import de.deroq.database.models.DatabaseServiceBuilder;
 import de.deroq.database.models.DatabaseServiceType;
 import de.deroq.database.services.mongo.MongoDatabaseService;
@@ -70,9 +68,29 @@ public class BedWars extends JavaPlugin {
     private void registerListeners() {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new PlayerJoinListener(this), this);
+        pluginManager.registerEvents(new PlayerQuitListener(this), this);
+        pluginManager.registerEvents(new PlayerLoginListener(this), this);
         pluginManager.registerEvents(new PlayerInteractListener(this), this);
         pluginManager.registerEvents(new InventoryClickListener(this), this);
-        pluginManager.registerEvents(new PlayerQuitListener(this), this);
+        pluginManager.registerEvents(new BlockPlaceListener(this), this);
+        pluginManager.registerEvents(new BlockBreakListener(this), this);
+        pluginManager.registerEvents(new EntityDamageListener(this), this);
+        pluginManager.registerEvents(new EntityDamageByEntityListener(this), this);
+        pluginManager.registerEvents(new PlayerDeathListener(this), this);
+
+
+        /* MISC */
+        pluginManager.registerEvents(new FoodLevelChangeListener(this), this);
+        pluginManager.registerEvents(new CreatureSpawnListener(), this);
+        pluginManager.registerEvents(new CraftItemListener(), this);
+        pluginManager.registerEvents(new PlayerDropItemListener(this), this);
+        pluginManager.registerEvents(new PlayerBedEnterListener(), this);
+        pluginManager.registerEvents(new PlayerPickUpItemListener(this), this);
+        pluginManager.registerEvents(new EntityExplodeListener(this), this);
+        pluginManager.registerEvents(new WeatherChangeListener(), this);
+        pluginManager.registerEvents(new PlayerAchievementAwardedListener(), this);
+
+        /* BEDWARS */
         pluginManager.registerEvents(new BedWarsDropOutListener(this), this);
     }
 

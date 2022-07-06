@@ -3,6 +3,7 @@ package de.deroq.bedwars.listeners;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.events.BedWarsDropOutEvent;
 import de.deroq.bedwars.game.models.GamePlayer;
+import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.GameState;
 import de.deroq.bedwars.utils.PlayerUtils;
@@ -17,11 +18,9 @@ import java.util.Optional;
 public class PlayerQuitListener implements Listener {
 
     private final BedWars bedWars;
-    private final int MIN_PLAYERS;
 
     public PlayerQuitListener(BedWars bedWars) {
         this.bedWars = bedWars;
-        this.MIN_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMinPlayers();
     }
 
     @EventHandler
@@ -38,13 +37,15 @@ public class PlayerQuitListener implements Listener {
         bedWars.getGameManager().getGamePlayers().remove(gamePlayer);
 
         if(bedWars.getGameManager().getGameState() == GameState.LOBBY) {
-            BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde verlassen " + BukkitUtils.getOnlinePlayers(MIN_PLAYERS));
+            BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde verlassen " + BukkitUtils.getOnlinePlayers(bedWars.getGameManager().MAX_PLAYERS));
             return;
         }
 
         if(bedWars.getGameManager().getGameState() == GameState.INGAME) {
             if(!gamePlayer.isSpectator()) {
-                /* Morgen Combatlog Check! */
+                GameTeamType gameTeamType = gamePlayer.getGameTeam().getGameTeamType();
+                BukkitUtils.sendBroadcastMessage(gameTeamType.getColorCode() + player.getName() + " §7hat die Runde verlassen");
+                bedWars.getGameManager().onCombatLog(gamePlayer);
                 Bukkit.getPluginManager().callEvent(new BedWarsDropOutEvent(gamePlayer));
             }
         }

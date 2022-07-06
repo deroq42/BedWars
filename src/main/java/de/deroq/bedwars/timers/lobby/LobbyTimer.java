@@ -18,19 +18,16 @@ public class LobbyTimer extends TimerTask {
 
     //WHERE THE TIMER BEGINS
     private final int TOTAL_SECONDS = 61;
-    private final int MIN_PLAYERS;
 
     public LobbyTimer(BedWars bedWars) {
         super(bedWars, true, 0, 20);
-        this.MIN_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMinPlayers();
-
         setTotalSeconds(TOTAL_SECONDS);
         setCurrentSeconds(TOTAL_SECONDS);
     }
 
     @Override
     public void onTick() {
-        if(bedWars.getGameManager().getGameState() != GameState.LOBBY || (Bukkit.getOnlinePlayers().size() < MIN_PLAYERS && !bedWars.getGameManager().isForceStarted())) {
+        if(bedWars.getGameManager().getGameState() != GameState.LOBBY || (Bukkit.getOnlinePlayers().size() < bedWars.getGameManager().MIN_PLAYERS && !bedWars.getGameManager().isForceStarted())) {
             onStop();
             return;
         }

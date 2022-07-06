@@ -33,8 +33,9 @@ public class GameManager {
     private GameMap currentGameMap;
     private Collection<GamePlayer> gamePlayers;
     private boolean forceStarted;
-    private final int MIN_PLAYERS;
-    private final Location LOBBY_LOCATION;
+    public final Location LOBBY_LOCATION;
+    public final int MIN_PLAYERS;
+    public final int MAX_PLAYERS;
 
     /**
      * Constructor of the class.
@@ -44,8 +45,10 @@ public class GameManager {
         this.gameState = GameState.LOBBY;
         this.gamePlayers = new ArrayList<>();
         this.forceStarted = false;
-        this.MIN_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMinPlayers();
+
         this.LOBBY_LOCATION = BukkitUtils.locationFromString(bedWars.getFileManager().getSettingsConfig().getWaitingLobbyLocation());
+        this.MIN_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMinPlayers();
+        this.MAX_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMaxPlayers();
 
         initLobbyIdleTimer();
     }
@@ -92,6 +95,10 @@ public class GameManager {
      * @param player The player to teleport.
      */
     public void teleportToLobby(Player player) {
+        if(player.isDead()) {
+            player.spigot().respawn();
+        }
+
         if (LOBBY_LOCATION != null) {
             player.teleport(LOBBY_LOCATION);
         }
@@ -137,6 +144,10 @@ public class GameManager {
      * @param player The player who got teleported.
      */
     public void teleportToSpawn(Player player) {
+        if(player.isDead()) {
+            player.spigot().respawn();
+        }
+
         Optional<GamePlayer> optionalGamePlayer = getGamePlayer(player.getUniqueId());
         if(!optionalGamePlayer.isPresent()) {
             return;
@@ -172,6 +183,19 @@ public class GameManager {
         }
 
         return null;
+    }
+
+    /**
+     * Triggers on player ingame quit.
+     *
+     * @param gamePlayer The GamePlayer who quit.
+     */
+    public void onCombatLog(GamePlayer gamePlayer) {
+        if(gamePlayer.getLastDamager() == null) {
+            return;
+        }
+
+        //Add kill to player
     }
 
     /**
