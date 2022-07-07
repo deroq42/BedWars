@@ -1,4 +1,4 @@
-package de.deroq.bedwars.utils.nms;
+package de.deroq.bedwars.npc.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

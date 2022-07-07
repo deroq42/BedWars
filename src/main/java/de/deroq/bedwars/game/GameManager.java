@@ -2,11 +2,11 @@ package de.deroq.bedwars.game;
 
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.map.models.GameMap;
+import de.deroq.bedwars.game.map.models.GameSpawner;
 import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.npc.NPC;
-import de.deroq.bedwars.npc.misc.NPCBuilder;
 import de.deroq.bedwars.timers.TimerTask;
 import de.deroq.bedwars.timers.lobby.LobbyIdleTimer;
 import de.deroq.bedwars.timers.lobby.LobbyTimer;
@@ -95,7 +95,7 @@ public class GameManager {
      * @param player The player to teleport.
      */
     public void teleportToLobby(Player player) {
-        if(player.isDead()) {
+        if (player.isDead()) {
             player.spigot().respawn();
         }
 
@@ -115,10 +115,17 @@ public class GameManager {
      * Starts spawning items.
      */
     public void startSpawningItems() {
-        currentGameMap.getItemSpawners().keySet().forEach(gameSpawner -> Bukkit.getScheduler().runTaskTimer(bedWars, () -> currentGameMap.getItemSpawners().get(gameSpawner).stream().map(BukkitUtils::locationFromString).forEach(location -> {
-            Item item = location.getWorld().dropItemNaturally(location, gameSpawner.getItemStack());
-            item.setVelocity(new Vector(0, 0, 0));
-        }), gameSpawner.getDelay(), gameSpawner.getPeriod()));
+        currentGameMap.getItemSpawners()
+                .keySet()
+                .stream()
+                .map(GameSpawner::valueOf)
+                .forEach(gameSpawner -> Bukkit.getScheduler().runTaskTimer(bedWars, () -> currentGameMap.getItemSpawners().get(gameSpawner.toString())
+                        .stream()
+                        .map(BukkitUtils::locationFromString)
+                        .forEach(location -> {
+                            Item item = location.getWorld().dropItemNaturally(location, gameSpawner.getItemStack());
+                            item.setVelocity(new Vector(0, 0, 0));
+                        }), gameSpawner.getDelay(), gameSpawner.getPeriod()));
     }
 
     /**
@@ -129,7 +136,7 @@ public class GameManager {
                 .stream()
                 .map(BukkitUtils::locationFromString)
                 .forEach(location -> {
-                    NPC npc = new NPCBuilder()
+                    NPC npc = new NPC.builder()
                             .setName("§6§lShop")
                             .setLocation(location)
                             .build();
@@ -144,17 +151,17 @@ public class GameManager {
      * @param player The player who got teleported.
      */
     public void teleportToSpawn(Player player) {
-        if(player.isDead()) {
+        if (player.isDead()) {
             player.spigot().respawn();
         }
 
         Optional<GamePlayer> optionalGamePlayer = getGamePlayer(player.getUniqueId());
-        if(!optionalGamePlayer.isPresent()) {
+        if (!optionalGamePlayer.isPresent()) {
             return;
         }
 
         GamePlayer gamePlayer = optionalGamePlayer.get();
-        if(gamePlayer.getGameTeam() == null) {
+        if (gamePlayer.getGameTeam() == null) {
             return;
         }
 
@@ -170,14 +177,14 @@ public class GameManager {
     public GameTeam onBedBreak(Block block) {
         Location location = block.getLocation();
 
-        for(GameTeam gameTeam : currentGameMap.getGameTeams()) {
+        for (GameTeam gameTeam : currentGameMap.getGameTeams()) {
             Location bedLocation = gameTeam.getBedLocation();
 
-            if(block.equals(bedLocation.getBlock())) {
+            if (block.equals(bedLocation.getBlock())) {
                 return gameTeam;
             }
 
-            if(bedLocation.getBlock().getLocation().distanceSquared(location) == 1) {
+            if (bedLocation.getBlock().getLocation().distanceSquared(location) == 1) {
                 return gameTeam;
             }
         }
@@ -191,7 +198,7 @@ public class GameManager {
      * @param gamePlayer The GamePlayer who quit.
      */
     public void onCombatLog(GamePlayer gamePlayer) {
-        if(gamePlayer.getLastDamager() == null) {
+        if (gamePlayer.getLastDamager() == null) {
             return;
         }
 
@@ -205,11 +212,7 @@ public class GameManager {
      * @return true if the player is dropped out.
      */
     public boolean checkForDropOut(GamePlayer gamePlayer) {
-        if(gamePlayer.getGameTeam().isBedGone()) {
-            return true;
-        }
-
-        return false;
+        return gamePlayer.getGameTeam().isBedGone();
     }
 
     /**
@@ -218,7 +221,7 @@ public class GameManager {
      * @return null if there is no winner yet.
      */
     public GameTeam checkForWin() {
-        if(currentGameMap.getGameTeams().size() > 1) {
+        if (currentGameMap.getGameTeams().size() > 1) {
             return null;
         }
 
@@ -251,14 +254,14 @@ public class GameManager {
      */
     public void setSpectator(Player player, boolean spectator) {
         Optional<GamePlayer> optionalGamePlayer = getGamePlayer(player.getUniqueId());
-        if(!optionalGamePlayer.isPresent()) {
+        if (!optionalGamePlayer.isPresent()) {
             return;
         }
 
         GamePlayer gamePlayer = optionalGamePlayer.get();
         gamePlayer.setSpectator(spectator, getAlive());
 
-        if(spectator) {
+        if (spectator) {
             player.teleport(BukkitUtils.locationFromString(currentGameMap.getSpectatorLocation()));
         }
     }

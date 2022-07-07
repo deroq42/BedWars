@@ -2,7 +2,8 @@ package de.deroq.bedwars.npc;
 
 import com.mojang.authlib.GameProfile;
 
-import de.deroq.bedwars.utils.nms.Reflections;
+import com.mojang.authlib.properties.Property;
+import de.deroq.bedwars.npc.utils.Reflections;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,15 +16,21 @@ import java.util.UUID;
 
 public class NPC extends Reflections implements Serializable {
 
-    private UUID uuid;
-    private String name;
+    private final UUID uuid;
+    private final String name;
+    private final String value;
+    private final String signature;
+    private final Location location;
     private GameProfile gameProfile;
-    private Location location;
     private Object npc;
     private EntityPlayer entityPlayer;
 
-    public NPC() {
-
+    private NPC(UUID uuid, String name, String value, String signature, Location location) {
+        this.uuid = uuid;
+        this.name = name;
+        this.value = value;
+        this.signature = signature;
+        this.location = location;
     }
 
     /**
@@ -46,11 +53,12 @@ public class NPC extends Reflections implements Serializable {
             Constructor<?> playerInteractManagerConstructor = playerInteractManagerClass.getDeclaredConstructors()[0];
             Object playerInteractManager = playerInteractManagerConstructor.newInstance(worldServer);
 
+            gameProfile.getProperties().put("textures", new Property("textures", value, signature));
+
             /* Gets the EntityPlayer class and creates a new instance of it with params
                MinecraftServer, WorldServer, GameProfile, PlayerInteractManager. */
             Class<?> entityPlayerClass = getNMSClass("EntityPlayer");
             Constructor<?> entityPlayerConstructor = entityPlayerClass.getDeclaredConstructors()[0];
-
             this.npc = entityPlayerConstructor.newInstance(
                     minecraftServer,
                     worldServer,
@@ -167,35 +175,65 @@ public class NPC extends Reflections implements Serializable {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public String getValue() {
+        return value;
+    }
+
+    public String getSignature() {
+        return signature;
     }
 
     public GameProfile getGameProfile() {
         return gameProfile;
     }
 
-    public void setGameProfile(GameProfile gameProfile) {
-        this.gameProfile = gameProfile;
-    }
-
     public EntityPlayer getEntityPlayer() {
         return entityPlayer;
+    }
+
+    public static class builder {
+
+        private UUID uuid;
+        private String name;
+        private String value;
+        private String signature;
+        private Location location;
+
+        public builder setUuid(UUID uuid) {
+            this.uuid = uuid;
+            return this;
+        }
+
+        public builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public builder setValue(String value) {
+            this.value = value;
+            return this;
+        }
+
+        public builder setSignature(String signature) {
+            this.signature = signature;
+            return this;
+        }
+
+        public builder setLocation(Location location) {
+            this.location = location;
+            return this;
+        }
+
+        public NPC build() {
+            return new NPC(uuid, name, value, signature, location);
+        }
     }
 }

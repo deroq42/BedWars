@@ -8,6 +8,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddTeamCommand extends Command {
 
     private final BedWars bedWars;
@@ -47,7 +50,7 @@ public class AddTeamCommand extends Command {
                 return;
             }
 
-            gameMap.getTeams().add(GameTeamType.valueOf(team));
+            gameMap.getTeams().add(team);
             bedWars.getGameMapManager().updateMap(gameMap).thenAcceptAsync(b -> player.sendMessage(Constants.PREFIX + "§aTeam wurde hinzugefügt"));
         });
 

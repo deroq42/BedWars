@@ -49,7 +49,7 @@ public class AddSpawnerCommand extends Command {
                 return;
             }
 
-            gameMap.getItemSpawners().get(GameSpawner.valueOf(spawner)).add(BukkitUtils.locationToString(player.getLocation()));
+            gameMap.getItemSpawners().get(spawner).add(BukkitUtils.locationToString(player.getLocation()));
             bedWars.getGameMapManager().updateMap(gameMap).thenAcceptAsync(b -> player.sendMessage(Constants.PREFIX + "§aSpawner wurde hinzugefügt"));
         });
 

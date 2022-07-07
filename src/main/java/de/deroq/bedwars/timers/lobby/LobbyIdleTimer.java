@@ -10,12 +10,9 @@ public class LobbyIdleTimer extends TimerTask {
 
     //WHERE THE TIMER STOPS TO COUNT UP
     private final int TOTAL_SECONDS = 600;
-    private final int MIN_PLAYERS;
 
     public LobbyIdleTimer(BedWars bedWars) {
         super(bedWars, false, 20*60*3, 20*60*3);
-        this.MIN_PLAYERS = bedWars.getGameManager().MIN_PLAYERS;
-
         setCurrentSeconds(0);
         setTotalSeconds(TOTAL_SECONDS);
     }
@@ -27,14 +24,14 @@ public class LobbyIdleTimer extends TimerTask {
             return;
         }
 
-        if(Bukkit.getOnlinePlayers().size() < MIN_PLAYERS) {
-            BukkitUtils.sendBroadcastMessage("Es werden §e" + MIN_PLAYERS + " Spieler §7benötigt, um die Runde zu starten");
+        if(Bukkit.getOnlinePlayers().size() < bedWars.getGameManager().MIN_PLAYERS) {
+            BukkitUtils.sendBroadcastMessage("Es werden §e" + bedWars.getGameManager().MIN_PLAYERS + " Spieler §7benötigt, um die Runde zu starten");
         }
     }
 
     @Override
     public void onFinish() {
-        if(Bukkit.getOnlinePlayers().size() < MIN_PLAYERS) {
+        if(Bukkit.getOnlinePlayers().size() < bedWars.getGameManager().MIN_PLAYERS) {
             Bukkit.shutdown();
         }
     }

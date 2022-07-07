@@ -49,7 +49,7 @@ public class SetSpawnCommand extends Command {
                 return;
             }
 
-            gameMap.getSpawnLocations().put(GameTeamType.valueOf(team), BukkitUtils.locationToString(player.getLocation()));
+            gameMap.getSpawnLocations().put(team, BukkitUtils.locationToString(player.getLocation()));
             bedWars.getGameMapManager().updateMap(gameMap).thenAcceptAsync(b -> player.sendMessage(Constants.PREFIX + "§aSpawn wurde gesetzt"));
         });
 

@@ -11,7 +11,7 @@ import de.deroq.bedwars.game.team.GameTeamManager;
 import de.deroq.bedwars.listeners.*;
 import de.deroq.bedwars.listeners.bedwars.BedWarsDropOutListener;
 import de.deroq.bedwars.listeners.misc.*;
-import de.deroq.database.models.DatabaseServiceBuilder;
+import de.deroq.database.models.DatabaseService;
 import de.deroq.database.models.DatabaseServiceType;
 import de.deroq.database.services.mongo.MongoDatabaseService;
 
@@ -45,7 +45,7 @@ public class BedWars extends JavaPlugin {
     }
 
     private void initDatabase() {
-        this.mongoDatabaseService = (MongoDatabaseService) new DatabaseServiceBuilder(DatabaseServiceType.MONGO)
+        this.mongoDatabaseService = (MongoDatabaseService) new DatabaseService.builder(DatabaseServiceType.MONGO)
                 .setHost("localhost")
                 .setDatabase("bedwars")
                 .setUsername("root")

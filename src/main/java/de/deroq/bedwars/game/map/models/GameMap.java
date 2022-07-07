@@ -2,36 +2,47 @@ package de.deroq.bedwars.game.map.models;
 
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
+import de.deroq.bedwars.utils.Constants;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class GameMap {
 
-    private final String muid;
-    private final String serverGroup;
+    private String muid;
+    private String serverGroup;
     private List<String> builders;
-    private List<GameTeamType> teams;
-    private Map<GameTeamType, String> spawnLocations;
-    private Map<GameTeamType, String> bedLocations;
-    private Map<GameSpawner, List<String>> itemSpawners;
+    private List<String> teams;
+    private Map<String, String> spawnLocations;
+    private Map<String, String> bedLocations;
+    private Map<String, List<String>> itemSpawners;
     private List<String> shopLocations;
     private String spectatorLocation;
     private double maxBuildHeight;
 
-    /**
-     * GAME INTERNAL STUFF
-     */
+    /* GAME INTERNAL STUFF */
 
     private List<GameTeam> gameTeams;
     private List<Location> placedBlocks;
 
-    //Public constructor due to pojo exceptions.
-    public GameMap(String muid, String serverGroup) {
+    private GameMap(String muid, String serverGroup) {
         this.muid = muid;
         this.serverGroup = serverGroup;
+
+        this.builders = new ArrayList<>();
+        this.teams = new ArrayList<>();
+        this.spawnLocations = new HashMap<>();
+        this.bedLocations = new HashMap<>();
+        this.itemSpawners = new HashMap<>();
+    }
+
+    /* Public constructor due to pojo exceptions. */
+    public GameMap() {
+
     }
 
     public String getMuid() {
@@ -50,35 +61,35 @@ public class GameMap {
         this.builders = builders;
     }
 
-    public List<GameTeamType> getTeams() {
+    public List<String> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<GameTeamType> teams) {
+    public void setTeams(List<String> teams) {
         this.teams = teams;
     }
 
-    public Map<GameTeamType, String> getSpawnLocations() {
+    public Map<String, String> getSpawnLocations() {
         return spawnLocations;
     }
 
-    public void setSpawnLocations(Map<GameTeamType, String> spawnLocations) {
+    public void setSpawnLocations(Map<String, String> spawnLocations) {
         this.spawnLocations = spawnLocations;
     }
 
-    public Map<GameTeamType, String> getBedLocations() {
+    public Map<String, String> getBedLocations() {
         return bedLocations;
     }
 
-    public void setBedLocations(Map<GameTeamType, String> bedLocations) {
+    public void setBedLocations(Map<String, String> bedLocations) {
         this.bedLocations = bedLocations;
     }
 
-    public Map<GameSpawner, List<String>> getItemSpawners() {
+    public Map<String, List<String>> getItemSpawners() {
         return itemSpawners;
     }
 
-    public void setItemSpawners(Map<GameSpawner, List<String>> itemSpawners) {
+    public void setItemSpawners(Map<String, List<String>> itemSpawners) {
         this.itemSpawners = itemSpawners;
     }
 
@@ -122,5 +133,9 @@ public class GameMap {
 
     public void setPlacedBlocks(List<Location> placedBlocks) {
         this.placedBlocks = placedBlocks;
+    }
+
+    public static GameMap create(String muid, String serverGroup) {
+        return new GameMap(muid, serverGroup);
     }
 }

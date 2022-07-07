@@ -43,7 +43,7 @@ public class SetTeamCountCommand extends Command {
             return true;
         }
 
-        bedWars.getFileManager().getSettingsConfig().setMaxPlayers(i);
+        bedWars.getFileManager().getSettingsConfig().setTeamCount(i);
         try {
             bedWars.getFileManager().saveConfig(bedWars.getFileManager().getSettingsConfig());
         } catch (IOException e) {

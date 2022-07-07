@@ -7,6 +7,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddShopCommand extends Command {
 
     private final BedWars bedWars;
@@ -39,6 +42,7 @@ public class AddShopCommand extends Command {
                 player.sendMessage(Constants.PREFIX + "Diese Map gibt es nicht");
                 return;
             }
+
 
             gameMap.getShopLocations().add(BukkitUtils.locationToString(player.getLocation()));
             bedWars.getGameMapManager().updateMap(gameMap).thenAcceptAsync(b -> player.sendMessage(Constants.PREFIX + "§aShop wurde hinzugefügt"));

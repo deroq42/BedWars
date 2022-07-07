@@ -5,6 +5,7 @@ import com.mongodb.client.model.Filters;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.map.models.GameMap;
 import de.deroq.bedwars.game.team.models.GameTeam;
+import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
 import de.deroq.database.services.mongo.MongoDatabaseServiceMethods;
@@ -29,7 +30,7 @@ public class GameMapManager {
 
             gameMap.getTeams().forEach(gameTeamType -> {
                 GameTeam gameTeam = GameTeam.create(
-                        gameTeamType,
+                        GameTeamType.valueOf(gameTeamType),
                         BukkitUtils.locationFromString(gameMap.getSpawnLocations().get(gameTeamType)),
                         BukkitUtils.locationFromString(gameMap.getBedLocations().get(gameTeamType)));
 
@@ -48,7 +49,7 @@ public class GameMapManager {
         return databaseServiceMethods.onInsert(
                 collection,
                 Filters.eq("muid", muid),
-                new GameMap(muid, Constants.SERVER_GROUP));
+                GameMap.create(muid, Constants.SERVER_GROUP));
     }
 
     /**
