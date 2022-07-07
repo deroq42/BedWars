@@ -31,10 +31,8 @@ public class PlayerJoinListener implements Listener {
             BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde betreten " + BukkitUtils.getOnlinePlayers(bedWars.getGameManager().MAX_PLAYERS));
             bedWars.getGameManager().teleportToLobby(player);
             bedWars.getGameManager().initLobbyTimer();
-            return;
-        }
 
-        if(bedWars.getGameManager().getGameState() != GameState.LOBBY) {
+        } else if(bedWars.getGameManager().getGameState() != GameState.LOBBY) {
             bedWars.getGameManager().setSpectator(player, true);
         }
 

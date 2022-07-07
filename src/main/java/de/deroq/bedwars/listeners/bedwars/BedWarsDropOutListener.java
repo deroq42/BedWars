@@ -26,6 +26,7 @@ public class BedWarsDropOutListener implements Listener {
         //ADD DEATH...
         bedWars.getGameManager().setSpectator(gamePlayer.getPlayer(), true);
         gameTeam.getPlayers().remove(gamePlayer.getUuid());
+        gamePlayer.setGameTeam(null);
 
         if(gameTeam.getPlayers().size() != 0) {
             return;

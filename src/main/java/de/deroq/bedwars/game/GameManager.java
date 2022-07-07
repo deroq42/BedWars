@@ -12,6 +12,7 @@ import de.deroq.bedwars.timers.lobby.LobbyIdleTimer;
 import de.deroq.bedwars.timers.lobby.LobbyTimer;
 import de.deroq.bedwars.timers.restart.RestartTimer;
 import de.deroq.bedwars.utils.BukkitUtils;
+import de.deroq.bedwars.utils.Constants;
 import de.deroq.bedwars.utils.GameState;
 
 import de.deroq.bedwars.utils.PlayerUtils;
@@ -75,9 +76,12 @@ public class GameManager {
     }
 
     private void initRestartTimer() {
+        currentTimer.onStop();
+
         RestartTimer restartTimer = new RestartTimer(bedWars);
         restartTimer.onStart();
         this.currentTimer = restartTimer;
+
     }
 
     /**
@@ -137,7 +141,10 @@ public class GameManager {
                 .map(BukkitUtils::locationFromString)
                 .forEach(location -> {
                     NPC npc = new NPC.builder()
+                            .setUuid(UUID.randomUUID())
                             .setName("§6§lShop")
+                            .setValue(Constants.SHOP_VALUE)
+                            .setSignature(Constants.SHOP_SIGNATURE)
                             .setLocation(location)
                             .build();
 
@@ -237,14 +244,15 @@ public class GameManager {
         GameTeamType gameTeamType = gameTeam.getGameTeamType();
 
         Bukkit.getOnlinePlayers().forEach(player -> {
-            initRestartTimer();
             teleportToLobby(player);
             setSpectator(player, false);
-
-            BukkitUtils.sendBroadcastMessage("Team" + gameTeamType.getColorCode() + gameTeamType.getName() + " §7hat die Runde gewonnen!");
-            BukkitUtils.spawnFirework(LOBBY_LOCATION);
             PlayerUtils.loadPlayer(player);
         });
+
+        BukkitUtils.sendBroadcastMessage("Team " + gameTeamType.getColorCode() + gameTeamType.getName() + " §7hat die Runde gewonnen!");
+        BukkitUtils.spawnFirework(LOBBY_LOCATION);
+        this.gameState = GameState.RESTART;
+        initRestartTimer();
     }
 
     /**

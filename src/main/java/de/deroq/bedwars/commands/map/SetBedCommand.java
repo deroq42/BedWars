@@ -53,7 +53,7 @@ public class SetBedCommand extends Command {
                 return;
             }
 
-            gameMap.getSpawnLocations().put(team, BukkitUtils.locationToString(player.getTargetBlock((Set<Material>) null, 5).getLocation()));
+            gameMap.getBedLocations().put(team, BukkitUtils.locationToString(player.getTargetBlock((Set<Material>) null, 5).getLocation()));
             bedWars.getGameMapManager().updateMap(gameMap).thenAcceptAsync(b -> player.sendMessage(Constants.PREFIX + "§aBett wurde gesetzt"));
         });
 

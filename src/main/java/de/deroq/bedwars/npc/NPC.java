@@ -21,7 +21,7 @@ public class NPC extends Reflections implements Serializable {
     private final String value;
     private final String signature;
     private final Location location;
-    private GameProfile gameProfile;
+    private final GameProfile gameProfile;
     private Object npc;
     private EntityPlayer entityPlayer;
 
@@ -31,6 +31,7 @@ public class NPC extends Reflections implements Serializable {
         this.value = value;
         this.signature = signature;
         this.location = location;
+        this.gameProfile = new GameProfile(uuid, name);
     }
 
     /**

@@ -38,6 +38,7 @@ public class PlayerQuitListener implements Listener {
 
         if(bedWars.getGameManager().getGameState() == GameState.LOBBY) {
             BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde verlassen " + BukkitUtils.getOnlinePlayers(bedWars.getGameManager().MAX_PLAYERS));
+            bedWars.getGameTeamManager().onQuit(gamePlayer);
             return;
         }
 

@@ -3,10 +3,13 @@ package de.deroq.bedwars.listeners.misc;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.utils.Constants;
 import de.deroq.bedwars.utils.GameState;
+import org.bukkit.block.Block;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
+
+import java.util.List;
 
 public class EntityExplodeListener implements Listener {
 
@@ -27,10 +30,7 @@ public class EntityExplodeListener implements Listener {
             return;
         }
 
-        event.blockList()
-                .stream()
-                .filter(block -> !Constants.BREAKABLE_BLOCKS.contains(block.getType()))
-                .forEach(block -> event.blockList().remove(block));
-
+        List<Block> blocks = event.blockList();
+        blocks.removeIf(block -> !Constants.BREAKABLE_BLOCKS.contains(block.getType()));
     }
 }

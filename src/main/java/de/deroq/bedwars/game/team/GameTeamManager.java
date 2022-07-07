@@ -8,7 +8,6 @@ import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.models.ItemBuilder;
 import de.deroq.bedwars.utils.Constants;
 
-import de.deroq.bedwars.utils.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,6 +30,18 @@ public class GameTeamManager {
     }
 
     /**
+     * Triggers on player quit.
+     *
+     * @param gamePlayer The GamePlayer who quit.
+     */
+    public void onQuit(GamePlayer gamePlayer) {
+        if (gamePlayer.getGameTeam() != null) {
+            gamePlayer.getGameTeam().getPlayers().remove(gamePlayer.getUuid());
+            gamePlayer.setGameTeam(null);
+        }
+    }
+
+    /**
      * Allocates all players to teams.
      */
     public void allocateTeams() {
@@ -48,7 +59,6 @@ public class GameTeamManager {
 
         for (GameTeam gameTeam : gameMap.getGameTeams()) {
             Iterator<GamePlayer> iterator = noTeamPlayers.iterator();
-
             if (iterator.hasNext()) {
                 if (gameTeam.getPlayers().size() >= TEAM_SIZE) {
                     continue;
@@ -65,12 +75,12 @@ public class GameTeamManager {
     /**
      * Triggers on inventory click in team selection inventory.
      *
-     * @param player The player who clicks the inventory.
+     * @param player    The player who clicks the inventory.
      * @param itemStack The item the player clicked on.
      */
     public void onTeamSelection(Player player, ItemStack itemStack) {
         GameTeam gameTeam = blockToGameTeam(itemStack);
-        if(gameTeam == null) {
+        if (gameTeam == null) {
             return;
         }
 
@@ -91,7 +101,7 @@ public class GameTeamManager {
         GamePlayer gamePlayer = optionalGamePlayer.get();
         if (gamePlayer.getGameTeam() != null) {
             if (gamePlayer.getGameTeam().equals(gameTeam)) {
-                player.sendMessage(Constants.PREFIX + "§cDu bist bereits in diesem Team");
+                player.sendMessage(Constants.PREFIX + "Du bist bereits in diesem Team");
                 return;
             }
 
@@ -158,7 +168,7 @@ public class GameTeamManager {
                 inventory.setItem(slot,
                         new ItemBuilder(Material.WOOL)
                                 .setWoolColor(gameTeamType.getWoolColor())
-                                .setDisplayName(gameTeamType.getWoolColor() + gameTeamType.getName())
+                                .setDisplayName(gameTeamType.getColorCode() + gameTeamType.getName())
                                 .addLoreAll(lore)
                                 .build());
                 i++;
@@ -176,14 +186,14 @@ public class GameTeamManager {
             return null;
         }
 
+        GameMap gameMap = bedWars.getGameManager().getCurrentGameMap();
+        if (gameMap == null) {
+            return null;
+        }
+
         for (GameTeamType gameTeamType : GameTeamType.values()) {
             if (gameTeamType.getWoolColor().getData() != itemStack.getDurability()) {
                 continue;
-            }
-
-            GameMap gameMap = bedWars.getGameManager().getCurrentGameMap();
-            if(gameMap == null) {
-                return null;
             }
 
             Optional<GameTeam> optionalGameTeam = gameMap
@@ -193,6 +203,7 @@ public class GameTeamManager {
                     .findFirst();
 
             return optionalGameTeam.orElse(null);
+
         }
 
         return null;

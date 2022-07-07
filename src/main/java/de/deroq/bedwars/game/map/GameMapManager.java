@@ -25,17 +25,9 @@ public class GameMapManager {
         this.mapCache = new HashMap<>();
 
         cacheMaps().thenAcceptAsync(b -> {
+            setupMaps();
             GameMap gameMap = pickRandomMap();
             bedWars.getGameManager().setCurrentGameMap(gameMap);
-
-            gameMap.getTeams().forEach(gameTeamType -> {
-                GameTeam gameTeam = GameTeam.create(
-                        GameTeamType.valueOf(gameTeamType),
-                        BukkitUtils.locationFromString(gameMap.getSpawnLocations().get(gameTeamType)),
-                        BukkitUtils.locationFromString(gameMap.getBedLocations().get(gameTeamType)));
-
-                gameMap.getGameTeams().add(gameTeam);
-            });
         });
     }
 
@@ -107,9 +99,28 @@ public class GameMapManager {
     /**
      * @return a random GameMap from the cache.
      */
-    public GameMap pickRandomMap() {
+    private GameMap pickRandomMap() {
         int random = new Random().nextInt(mapCache.size());
         return new ArrayList<>(mapCache.values()).get(random);
+    }
+
+    /**
+     * Creates GameTeams, etc. for all loaded maps.
+     */
+    private void setupMaps() {
+        mapCache.values().forEach(gameMap -> {
+            gameMap.setGameTeams(new ArrayList<>());
+            gameMap.setPlacedBlocks(new ArrayList<>());
+
+            gameMap.getTeams().forEach(gameTeamType -> {
+                GameTeam gameTeam = GameTeam.create(
+                        GameTeamType.valueOf(gameTeamType),
+                        BukkitUtils.locationFromString(gameMap.getSpawnLocations().get(gameTeamType)),
+                        BukkitUtils.locationFromString(gameMap.getBedLocations().get(gameTeamType)));
+
+                gameMap.getGameTeams().add(gameTeam);
+            });
+        });
     }
 
     public Map<String, GameMap> getMapCache() {

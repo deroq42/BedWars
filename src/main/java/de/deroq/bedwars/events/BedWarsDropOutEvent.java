@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 
 public class BedWarsDropOutEvent extends Event {
 
-    public static HandlerList HANDLERS = new HandlerList();
+    public static final HandlerList HANDLERS = new HandlerList();
     private final GamePlayer gamePlayer;
 
     public BedWarsDropOutEvent(GamePlayer gamePlayer) {
@@ -23,6 +23,6 @@ public class BedWarsDropOutEvent extends Event {
 
     @Override
     public HandlerList getHandlers() {
-        return null;
+        return HANDLERS;
     }
 }

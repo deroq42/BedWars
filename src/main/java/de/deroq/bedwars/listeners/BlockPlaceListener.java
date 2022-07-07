@@ -32,7 +32,9 @@ public class BlockPlaceListener implements Listener {
             }
         } else {
             if(!Constants.PLACEABLE_BLOCKS.contains(block.getType())) {
-                event.setCancelled(true);
+                if(player.getGameMode() != GameMode.CREATIVE) {
+                    event.setCancelled(true);
+                }
                 return;
             }
 

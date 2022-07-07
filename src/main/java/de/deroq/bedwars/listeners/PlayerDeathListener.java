@@ -25,6 +25,7 @@ public class PlayerDeathListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player killed = event.getEntity();
         Player killer = killed.getKiller();
+        event.setDeathMessage(null);
 
         Optional<GamePlayer> optionalKilledGamePlayer = bedWars.getGameManager().getGamePlayer(killed.getUniqueId());
         if(!optionalKilledGamePlayer.isPresent()) {
@@ -46,6 +47,8 @@ public class PlayerDeathListener implements Listener {
             GameTeamType killerGameTeamType = killerGamePlayer.getGameTeam().getGameTeamType();
             BukkitUtils.sendBroadcastMessage(killedGameTeamType.getColorCode() + killed.getName() + " §7wurde von " + killerGameTeamType.getColorCode() + killer.getName() + " §7getötet");
         }
+
+        bedWars.getGameManager().teleportToSpawn(killed);
 
         if(bedWars.getGameManager().checkForDropOut(killedGamePlayer)) {
             Bukkit.getPluginManager().callEvent(new BedWarsDropOutEvent(killedGamePlayer));

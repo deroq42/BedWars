@@ -8,6 +8,11 @@ public class PlayerUtils {
     public static void loadInventory(Player player, GameState gameState) {
         player.getInventory().setItem(8, Constants.LOBBY_ITEM);
 
+        if(gameState == GameState.LOBBY) {
+            player.getInventory().setItem(0, Constants.TEAM_SELECTION_ITEM);
+            return;
+        }
+
         if(gameState == GameState.INGAME) {
             player.getInventory().setItem(0, Constants.SPECTATOR_ITEM);
         }

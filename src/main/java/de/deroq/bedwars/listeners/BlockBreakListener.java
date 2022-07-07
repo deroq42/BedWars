@@ -39,7 +39,9 @@ public class BlockBreakListener implements Listener {
         }
 
         if (!Constants.BREAKABLE_BLOCKS.contains(block.getType())) {
-            event.setCancelled(true);
+            if(player.getGameMode() != GameMode.CREATIVE) {
+                event.setCancelled(true);
+            }
 
             if (block.getType() == Material.BED_BLOCK) {
                 GameTeam gameTeam = bedWars.getGameManager().onBedBreak(block);
@@ -74,7 +76,10 @@ public class BlockBreakListener implements Listener {
         } else {
             if(!bedWars.getGameManager().getCurrentGameMap().getPlacedBlocks().contains(block.getLocation())) {
                 event.setCancelled(true);
+                return;
             }
+
+            bedWars.getGameManager().getCurrentGameMap().getPlacedBlocks().remove(block.getLocation());
         }
 
     }

@@ -8,6 +8,7 @@ import de.deroq.bedwars.timers.ingame.IngameTimer;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
 import de.deroq.bedwars.utils.GameState;
+import de.deroq.bedwars.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -65,6 +66,7 @@ public class LobbyTimer extends TimerTask {
         BukkitUtils.sendBroadcastMessage("§eDas Spiel hat begonnen");
         bedWars.getGameManager().getAlive().forEach(gamePlayer -> {
             Player player = gamePlayer.getPlayer();
+            PlayerUtils.loadPlayer(player);
             GameTeamType gameTeamType = gamePlayer.getGameTeam().getGameTeamType();
             player.sendMessage(Constants.PREFIX + "Dein Team: " + gameTeamType.getColorCode() + gameTeamType.getName());
         });
