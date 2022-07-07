@@ -43,7 +43,6 @@ public class AddShopCommand extends Command {
                 return;
             }
 
-
             gameMap.getShopLocations().add(BukkitUtils.locationToString(player.getLocation()));
             bedWars.getGameMapManager().updateMap(gameMap).thenAcceptAsync(b -> player.sendMessage(Constants.PREFIX + "§aShop wurde hinzugefügt"));
         });

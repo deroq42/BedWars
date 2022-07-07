@@ -29,7 +29,8 @@ public class GameMap {
     private List<GameTeam> gameTeams;
     private List<Location> placedBlocks;
 
-    private GameMap(String muid, String serverGroup) {
+    /* Public constructor due to pojo exceptions. */
+    public GameMap(String muid, String serverGroup) {
         this.muid = muid;
         this.serverGroup = serverGroup;
 
@@ -38,6 +39,7 @@ public class GameMap {
         this.spawnLocations = new HashMap<>();
         this.bedLocations = new HashMap<>();
         this.itemSpawners = new HashMap<>();
+        this.shopLocations = new ArrayList<>();
     }
 
     /* Public constructor due to pojo exceptions. */
@@ -49,8 +51,16 @@ public class GameMap {
         return muid;
     }
 
+    public void setMuid(String muid) {
+        this.muid = muid;
+    }
+
     public String getServerGroup() {
         return serverGroup;
+    }
+
+    public void setServerGroup(String serverGroup) {
+        this.serverGroup = serverGroup;
     }
 
     public List<String> getBuilders() {
@@ -133,9 +143,5 @@ public class GameMap {
 
     public void setPlacedBlocks(List<Location> placedBlocks) {
         this.placedBlocks = placedBlocks;
-    }
-
-    public static GameMap create(String muid, String serverGroup) {
-        return new GameMap(muid, serverGroup);
     }
 }

@@ -10,6 +10,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class AddSpawnerCommand extends Command {
 
     private final BedWars bedWars;
@@ -45,9 +49,13 @@ public class AddSpawnerCommand extends Command {
 
             String spawner = args[1].toUpperCase();
             if (!EnumUtils.isValidEnum(GameSpawner.class, spawner)) {
-                player.sendMessage(Constants.PREFIX + "Gib ein validen Spawner an: " + GameSpawner.values());
+                player.sendMessage(Constants.PREFIX + "Gib ein validen Spawner an: " + Arrays.toString(GameSpawner.values()));
                 return;
             }
+
+            /*if(!gameMap.getItemSpawners().containsKey(spawner)) {
+                gameMap.getItemSpawners().put(spawner, new ArrayList<>());
+            }*/
 
             gameMap.getItemSpawners().get(spawner).add(BukkitUtils.locationToString(player.getLocation()));
             bedWars.getGameMapManager().updateMap(gameMap).thenAcceptAsync(b -> player.sendMessage(Constants.PREFIX + "§aSpawner wurde hinzugefügt"));

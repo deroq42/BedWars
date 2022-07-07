@@ -49,7 +49,7 @@ public class GameMapManager {
         return databaseServiceMethods.onInsert(
                 collection,
                 Filters.eq("muid", muid),
-                GameMap.create(muid, Constants.SERVER_GROUP));
+                new GameMap(muid, Constants.SERVER_GROUP));
     }
 
     /**

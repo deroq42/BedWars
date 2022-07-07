@@ -10,6 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class SetSpawnCommand extends Command {
 
     private final BedWars bedWars;
@@ -45,7 +47,7 @@ public class SetSpawnCommand extends Command {
 
             String team = args[1].toUpperCase();
             if (!EnumUtils.isValidEnum(GameTeamType.class, team)) {
-                player.sendMessage(Constants.PREFIX + "Gib ein valides Team an: " + GameTeamType.values());
+                player.sendMessage(Constants.PREFIX + "Gib ein valides Team an: " + Arrays.toString(GameTeamType.values()));
                 return;
             }
 

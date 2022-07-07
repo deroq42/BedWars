@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Set;
 
 public class SetBedCommand extends Command {
@@ -48,7 +49,7 @@ public class SetBedCommand extends Command {
 
             String team = args[1].toUpperCase();
             if (!EnumUtils.isValidEnum(GameTeamType.class, team)) {
-                player.sendMessage(Constants.PREFIX + "Gib ein valides Team an: " + GameTeamType.values());
+                player.sendMessage(Constants.PREFIX + "Gib ein valides Team an: " + Arrays.toString(GameTeamType.values()));
                 return;
             }
 
