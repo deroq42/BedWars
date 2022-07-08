@@ -4,6 +4,8 @@ import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.map.models.GameMap;
 import de.deroq.bedwars.game.map.models.GameSpawner;
 import de.deroq.bedwars.game.models.GamePlayer;
+import de.deroq.bedwars.game.scoreboard.ingame.IngameScoreboard;
+import de.deroq.bedwars.game.scoreboard.lobby.LobbyScoreboard;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.npc.NPC;
@@ -37,6 +39,8 @@ public class GameManager {
     public final Location LOBBY_LOCATION;
     public final int MIN_PLAYERS;
     public final int MAX_PLAYERS;
+    public final int TEAM_COUNT;
+    public final int TEAM_SIZE;
 
     /**
      * Constructor of the class.
@@ -50,6 +54,8 @@ public class GameManager {
         this.LOBBY_LOCATION = BukkitUtils.locationFromString(bedWars.getFileManager().getSettingsConfig().getWaitingLobbyLocation());
         this.MIN_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMinPlayers();
         this.MAX_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMaxPlayers();
+        this.TEAM_COUNT = bedWars.getFileManager().getSettingsConfig().getTeamCount();
+        this.TEAM_SIZE = bedWars.getFileManager().getSettingsConfig().getTeamSize();
 
         initLobbyIdleTimer();
     }
@@ -75,6 +81,9 @@ public class GameManager {
         lobbyIdleTimer.onStart();
     }
 
+    /**
+     * Starts the restart timer.
+     */
     private void initRestartTimer() {
         currentTimer.onStop();
 
@@ -155,21 +164,12 @@ public class GameManager {
     /**
      * Teleports a player to his spawn.
      *
-     * @param player The player who got teleported.
+     * @param gamePlayer The GamePlayer who gets teleported.
      */
-    public void teleportToSpawn(Player player) {
+    public void teleportToSpawn(GamePlayer gamePlayer) {
+        Player player = gamePlayer.getPlayer();
         if (player.isDead()) {
             player.spigot().respawn();
-        }
-
-        Optional<GamePlayer> optionalGamePlayer = getGamePlayer(player.getUniqueId());
-        if (!optionalGamePlayer.isPresent()) {
-            return;
-        }
-
-        GamePlayer gamePlayer = optionalGamePlayer.get();
-        if (gamePlayer.getGameTeam() == null) {
-            return;
         }
 
         player.teleport(gamePlayer.getGameTeam().getSpawnLocation());
@@ -243,10 +243,12 @@ public class GameManager {
     public void onWin(GameTeam gameTeam) {
         GameTeamType gameTeamType = gameTeam.getGameTeamType();
 
-        Bukkit.getOnlinePlayers().forEach(player -> {
+        getGamePlayers().forEach(gamePlayer -> {
+            Player player = gamePlayer.getPlayer();
             teleportToLobby(player);
-            setSpectator(player, false);
+            setSpectator(gamePlayer, false);
             PlayerUtils.loadPlayer(player);
+
         });
 
         BukkitUtils.sendBroadcastMessage("Team " + gameTeamType.getColorCode() + gameTeamType.getName() + " §7hat die Runde gewonnen!");
@@ -258,20 +260,48 @@ public class GameManager {
     /**
      * Sets a player into the spectator mode.
      *
-     * @param player The player who is to spectate.
+     * @param gamePlayer The GamePlayer who is to spectate.
      */
-    public void setSpectator(Player player, boolean spectator) {
-        Optional<GamePlayer> optionalGamePlayer = getGamePlayer(player.getUniqueId());
-        if (!optionalGamePlayer.isPresent()) {
-            return;
-        }
-
-        GamePlayer gamePlayer = optionalGamePlayer.get();
+    public void setSpectator(GamePlayer gamePlayer, boolean spectator) {
         gamePlayer.setSpectator(spectator, getAlive());
 
         if (spectator) {
-            player.teleport(BukkitUtils.locationFromString(currentGameMap.getSpectatorLocation()));
+            gamePlayer.getPlayer().teleport(BukkitUtils.locationFromString(currentGameMap.getSpectatorLocation()));
         }
+    }
+
+    /**
+     * Sets the lobby scoreboard.
+     */
+    public void setLobbyScoreboard(GamePlayer gamePlayer) {
+        LobbyScoreboard lobbyScoreboard = new LobbyScoreboard(bedWars);
+        lobbyScoreboard.setScoreboard(gamePlayer.getPlayer());
+        lobbyScoreboard.setTablist(gamePlayer.getPlayer());
+        gamePlayer.setGameScoreboard(lobbyScoreboard);
+    }
+
+    /**
+     * Sets the ingame scoreboard.
+     */
+    public void setIngameScoreboard(GamePlayer gamePlayer) {
+        IngameScoreboard ingameScoreboard = new IngameScoreboard(bedWars);
+        ingameScoreboard.setScoreboard(gamePlayer.getPlayer());
+        ingameScoreboard.setTablist(gamePlayer.getPlayer());
+        gamePlayer.setGameScoreboard(ingameScoreboard);
+    }
+
+    /**
+     * Updates the scoreboard for all players.
+     */
+    public void updateScoreboard() {
+        getGamePlayers().forEach(gamePlayer -> gamePlayer.getGameScoreboard().updateScoreboard());
+    }
+
+    /**
+     * Updates the tablist for all players.
+     */
+    public void updateTablist() {
+        getGamePlayers().forEach(gamePlayer -> gamePlayer.getGameScoreboard().updateTablist());
     }
 
     public GameState getGameState() {

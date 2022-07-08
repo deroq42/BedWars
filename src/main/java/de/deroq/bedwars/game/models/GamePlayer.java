@@ -1,5 +1,6 @@
 package de.deroq.bedwars.game.models;
 
+import de.deroq.bedwars.game.scoreboard.GameScoreboard;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.utils.GameState;
 import de.deroq.bedwars.utils.PlayerUtils;
@@ -18,6 +19,7 @@ public class GamePlayer {
     private GameTeam gameTeam;
     private UUID lastDamager;
     private boolean spectator;
+    private GameScoreboard gameScoreboard;
 
     private GamePlayer(UUID uuid) {
         this.uuid = uuid;
@@ -78,6 +80,14 @@ public class GamePlayer {
 
     public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
+    }
+
+    public GameScoreboard getGameScoreboard() {
+        return gameScoreboard;
+    }
+
+    public void setGameScoreboard(GameScoreboard gameScoreboard) {
+        this.gameScoreboard = gameScoreboard;
     }
 
     public static GamePlayer create(UUID uuid) {

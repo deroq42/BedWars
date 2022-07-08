@@ -21,21 +21,23 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        GamePlayer gamePlayer = GamePlayer.create(player.getUniqueId());
         event.setJoinMessage(null);
 
         PlayerUtils.loadPlayer(player);
         PlayerUtils.loadInventory(player, bedWars.getGameManager().getGameState());
 
-        GamePlayer gamePlayer = GamePlayer.create(player.getUniqueId());
-        if(bedWars.getGameManager().getGameState() == GameState.LOBBY) {
+        if (bedWars.getGameManager().getGameState() == GameState.LOBBY) {
             BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde betreten " + BukkitUtils.getOnlinePlayers(bedWars.getGameManager().MAX_PLAYERS));
             bedWars.getGameManager().teleportToLobby(player);
             bedWars.getGameManager().initLobbyTimer();
-
-        } else if(bedWars.getGameManager().getGameState() != GameState.LOBBY) {
-            bedWars.getGameManager().setSpectator(player, true);
+            bedWars.getGameManager().setLobbyScoreboard(gamePlayer);
+        } else {
+            bedWars.getGameManager().setSpectator(gamePlayer, true);
+            bedWars.getGameManager().setIngameScoreboard(gamePlayer);
         }
 
         bedWars.getGameManager().getGamePlayers().add(gamePlayer);
+        bedWars.getGameManager().updateTablist();
     }
 }

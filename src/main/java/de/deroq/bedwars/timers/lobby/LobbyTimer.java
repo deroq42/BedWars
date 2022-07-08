@@ -66,8 +66,10 @@ public class LobbyTimer extends TimerTask {
         BukkitUtils.sendBroadcastMessage("§eDas Spiel hat begonnen");
         bedWars.getGameManager().getAlive().forEach(gamePlayer -> {
             Player player = gamePlayer.getPlayer();
-            PlayerUtils.loadPlayer(player);
             GameTeamType gameTeamType = gamePlayer.getGameTeam().getGameTeamType();
+
+            bedWars.getGameManager().setIngameScoreboard(gamePlayer);
+            PlayerUtils.loadPlayer(player);
             player.sendMessage(Constants.PREFIX + "Dein Team: " + gameTeamType.getColorCode() + gameTeamType.getName());
         });
     }

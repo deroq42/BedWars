@@ -45,6 +45,7 @@ public class ForceMapCommand extends Command {
         }
 
         bedWars.getGameManager().setCurrentGameMap(bedWars.getGameMapManager().getMapCache().get(map));
+        bedWars.getGameManager().updateScoreboard();
         player.sendMessage(Constants.PREFIX + "§aMap wurde geändert");
         return false;
     }

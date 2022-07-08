@@ -72,6 +72,7 @@ public class BlockBreakListener implements Listener {
 
                 gameTeam.setBedGone(true);
                 block.setType(Material.AIR);
+                bedWars.getGameManager().updateScoreboard();
             }
         } else {
             if(!bedWars.getGameManager().getCurrentGameMap().getPlacedBlocks().contains(block.getLocation())) {

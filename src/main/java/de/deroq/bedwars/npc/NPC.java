@@ -3,10 +3,12 @@ package de.deroq.bedwars.npc;
 import com.mojang.authlib.GameProfile;
 
 import com.mojang.authlib.properties.Property;
+import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.npc.utils.Reflections;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -77,6 +79,7 @@ public class NPC extends Reflections implements Serializable {
 
             sendPacket(packetPlayOutNamedEntitySpawn);
             fixHeadDirection(location.getYaw(), location.getPitch());
+            Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(BedWars.class), this::removeFromTabList, 20);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
                  InstantiationException e) {
             Bukkit.getLogger().warning("Error while spawning NPC " + name + ": " + e.getMessage());
@@ -130,6 +133,35 @@ public class NPC extends Reflections implements Serializable {
         } catch (NoSuchFieldException | ClassNotFoundException | InvocationTargetException | IllegalAccessException |
                  NoSuchMethodException | InstantiationException e) {
             Bukkit.getLogger().warning("Error while adding NPC " + name + " to tablist: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Removes a npc from the tablist.
+     */
+    public void removeFromTabList() {
+        try {
+            Object array = Array.newInstance(getNMSClass("EntityPlayer"), 1);
+            Array.set(array, 0, npc);
+
+            /* Gets the PacketPlayOutPlayerInfo class and the inner class EnumPlayerInfoAction to add the npc to the tablist */
+            Class<?> packetPlayOutPlayerInfoClass = getNMSClass("PacketPlayOutPlayerInfo");
+            Class<?> enumPlayerInfoActionClass = getNMSClass("PacketPlayOutPlayerInfo$EnumPlayerInfoAction");
+            Object addPlayerEnum = enumPlayerInfoActionClass
+                    .getField("REMOVE_PLAYER")
+                    .get(null);
+
+            Constructor<?> packetPlayOutPlayerInfoConstructor = packetPlayOutPlayerInfoClass.getConstructor(
+                    enumPlayerInfoActionClass,
+                    Class.forName("[Lnet.minecraft.server." + getServerVersion() + ".EntityPlayer;"));
+
+            /* Creates a new instance of it with the params EnumPlayerInfoAction, EntityPlayer. */
+            Object packetPlayOutPlayerInfo = packetPlayOutPlayerInfoConstructor.newInstance(addPlayerEnum, array);
+            sendPacket(packetPlayOutPlayerInfo);
+        } catch (NoSuchFieldException | ClassNotFoundException | InvocationTargetException | IllegalAccessException |
+                 NoSuchMethodException | InstantiationException e) {
+            Bukkit.getLogger().warning("Error while removing NPC " + name + " from tablist: " + e.getMessage());
             e.printStackTrace();
         }
     }
