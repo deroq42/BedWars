@@ -16,7 +16,7 @@ public class SettingsConfig extends Config {
     private int teamSize;
 
     private SettingsConfig(File file) {
-        super(file.getName());
+        super(file);
         this.waitingLobbyLocation = BukkitUtils.locationToString(new Location(Bukkit.getWorld("world"), 0, 70, 0));
         this.minPlayers = 2;
         this.maxPlayers = 8;

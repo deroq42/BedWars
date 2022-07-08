@@ -38,7 +38,7 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (!Constants.BREAKABLE_BLOCKS.contains(block.getType())) {
+        if (!bedWars.getGameManager().BREAKABLE_BLOCKS.contains(block.getType())) {
             if(player.getGameMode() != GameMode.CREATIVE) {
                 event.setCancelled(true);
             }

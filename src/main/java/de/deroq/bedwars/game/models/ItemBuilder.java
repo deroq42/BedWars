@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ItemBuilder {
 
@@ -126,6 +127,11 @@ public class ItemBuilder {
 
     public ItemBuilder addEnchantment(Enchantment ench, int lvl) {
         meta.addEnchant(ench, lvl, true);
+        return this;
+    }
+
+    public ItemBuilder addEnchantmentAll(Map<String, Integer> enchantments) {
+        enchantments.forEach((enchantment, level) -> meta.addEnchant(Enchantment.getByName(enchantment), level, true));
         return this;
     }
 

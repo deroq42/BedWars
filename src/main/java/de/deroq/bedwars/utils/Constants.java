@@ -27,23 +27,10 @@ public class Constants {
             .setDisplayName("§cSpieler zuschauen")
             .build();
 
-    public static final Set<Material> PLACEABLE_BLOCKS = Stream.of(
-            Material.SANDSTONE,
-            Material.ENDER_STONE,
-            Material.ENDER_CHEST,
-            Material.CHEST,
-            Material.IRON_BLOCK,
-            Material.WEB,
-            Material.GLASS,
-            Material.GLOWSTONE,
-            Material.LADDER,
-            Material.TNT,
-            Material.FIRE,
-            Material.PACKED_ICE,
-            Material.CAKE_BLOCK
-    ).collect(Collectors.toSet());
-
-    public static final Set<Material> BREAKABLE_BLOCKS = PLACEABLE_BLOCKS;
+    public static final ItemStack PLACEHOLDER = new ItemBuilder(Material.STAINED_GLASS_PANE)
+            .setData((short) 7)
+            .setDisplayName("")
+            .build();
 
     public static final Set<String> GLOBAL_CHAT_PREFIXES = Stream.of(
             "@a",

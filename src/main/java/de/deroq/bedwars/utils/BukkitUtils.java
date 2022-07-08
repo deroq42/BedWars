@@ -4,6 +4,7 @@ import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class BukkitUtils {
@@ -52,5 +53,11 @@ public class BukkitUtils {
 
         firework.setFireworkMeta(fireworkMeta);
         firework.detonate();
+    }
+
+    public static void fillInventory(Inventory inventory, int begin, int end) {
+        for(int i = begin; i < end; i++) {
+            inventory.setItem(i, Constants.PLACEHOLDER);
+        }
     }
 }

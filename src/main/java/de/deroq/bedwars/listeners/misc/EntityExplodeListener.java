@@ -31,6 +31,6 @@ public class EntityExplodeListener implements Listener {
         }
 
         List<Block> blocks = event.blockList();
-        blocks.removeIf(block -> !Constants.BREAKABLE_BLOCKS.contains(block.getType()));
+        blocks.removeIf(block -> !bedWars.getGameManager().BREAKABLE_BLOCKS.contains(block.getType()));
     }
 }

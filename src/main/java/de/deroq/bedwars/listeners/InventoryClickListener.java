@@ -2,6 +2,7 @@ package de.deroq.bedwars.listeners;
 
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.models.GamePlayer;
+import de.deroq.bedwars.game.shop.category.GameShopCategoryType;
 import de.deroq.bedwars.utils.GameState;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -48,6 +49,7 @@ public class InventoryClickListener implements Listener {
         GamePlayer gamePlayer = optionalGamePlayer.get();
         if (gamePlayer.isSpectator()) {
             event.setCancelled(true);
+            return;
         }
     }
 }

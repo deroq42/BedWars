@@ -20,6 +20,7 @@ import de.deroq.bedwars.utils.GameState;
 import de.deroq.bedwars.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -37,11 +38,14 @@ public class GameManager {
     private Collection<GamePlayer> gamePlayers;
     private boolean forceStarted;
     private boolean forceMapped;
+
     public final Location LOBBY_LOCATION;
     public final int MIN_PLAYERS;
     public final int MAX_PLAYERS;
     public final int TEAM_COUNT;
     public final int TEAM_SIZE;
+    public final Set<Material> BREAKABLE_BLOCKS;
+    public final Set<Material> PLACEABLE_BLOCKS;
 
     /**
      * Constructor of the class.
@@ -58,6 +62,8 @@ public class GameManager {
         this.MAX_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMaxPlayers();
         this.TEAM_COUNT = bedWars.getFileManager().getSettingsConfig().getTeamCount();
         this.TEAM_SIZE = bedWars.getFileManager().getSettingsConfig().getTeamSize();
+        this.BREAKABLE_BLOCKS = bedWars.getFileManager().getBlocksConfig().getBlocks();
+        this.PLACEABLE_BLOCKS = BREAKABLE_BLOCKS;
 
         initLobbyIdleTimer();
     }
@@ -92,7 +98,6 @@ public class GameManager {
         RestartTimer restartTimer = new RestartTimer(bedWars);
         restartTimer.onStart();
         this.currentTimer = restartTimer;
-
     }
 
     /**

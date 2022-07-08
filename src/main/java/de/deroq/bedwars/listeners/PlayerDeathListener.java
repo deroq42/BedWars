@@ -24,8 +24,8 @@ public class PlayerDeathListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player killed = event.getEntity();
-        Player killer = killed.getKiller();
         event.setDeathMessage(null);
+        event.getDrops().clear();
 
         Optional<GamePlayer> optionalKilledGamePlayer = bedWars.getGameManager().getGamePlayer(killed.getUniqueId());
         if(!optionalKilledGamePlayer.isPresent()) {
@@ -34,6 +34,7 @@ public class PlayerDeathListener implements Listener {
 
         GamePlayer killedGamePlayer = optionalKilledGamePlayer.get();
         GameTeamType killedGameTeamType = killedGamePlayer.getGameTeam().getGameTeamType();
+        Player killer = Bukkit.getPlayer(killedGamePlayer.getLastDamager());
 
         if(killer == null) {
             BukkitUtils.sendBroadcastMessage(killedGameTeamType.getColorCode() + killed.getName() + " §7ist gestorben", true);
@@ -45,6 +46,8 @@ public class PlayerDeathListener implements Listener {
 
             GamePlayer killerGamePlayer = optionalKillerGamePlayer.get();
             GameTeamType killerGameTeamType = killerGamePlayer.getGameTeam().getGameTeamType();
+
+            killedGamePlayer.setLastDamager(null);
             BukkitUtils.sendBroadcastMessage(killedGameTeamType.getColorCode() + killed.getName() + " §7wurde von " + killerGameTeamType.getColorCode() + killer.getName() + " §7getötet", true);
         }
 

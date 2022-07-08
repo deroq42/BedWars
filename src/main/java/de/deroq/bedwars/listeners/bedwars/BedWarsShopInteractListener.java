@@ -1,14 +1,21 @@
 package de.deroq.bedwars.listeners.bedwars;
 
+import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.events.BedWarsShopInteractEvent;
 import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.npc.NPC;
-import org.bukkit.Bukkit;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class BedWarsShopInteractListener implements Listener {
+
+    private final BedWars bedWars;
+
+    public BedWarsShopInteractListener(BedWars bedWars) {
+        this.bedWars = bedWars;
+    }
 
     @EventHandler
     public void onBedWarsShopInteract(BedWarsShopInteractEvent event) {
@@ -16,6 +23,8 @@ public class BedWarsShopInteractListener implements Listener {
         Player player = gamePlayer.getPlayer();
         NPC npc = event.getNpc();
 
-        player.openInventory(Bukkit.createInventory(null, 9, "TEST"));
+        if(npc.getName().equals("§6§lShop")) {
+            player.openInventory(bedWars.getGameShopManager().getCategoryMenu());
+        }
     }
 }

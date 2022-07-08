@@ -7,6 +7,7 @@ import de.deroq.bedwars.commands.game.StartCommand;
 import de.deroq.bedwars.config.FileManager;
 import de.deroq.bedwars.game.GameManager;
 import de.deroq.bedwars.game.map.GameMapManager;
+import de.deroq.bedwars.game.shop.GameShopManager;
 import de.deroq.bedwars.game.team.GameTeamManager;
 import de.deroq.bedwars.listeners.*;
 import de.deroq.bedwars.listeners.bedwars.BedWarsDropOutListener;
@@ -29,6 +30,7 @@ public class BedWars extends JavaPlugin {
     private GameManager gameManager;
     private GameMapManager gameMapManager;
     private GameTeamManager gameTeamManager;
+    private GameShopManager gameShopManager;
 
     @Override
     public void onEnable() {
@@ -64,6 +66,7 @@ public class BedWars extends JavaPlugin {
         this.gameManager = new GameManager(this);
         this.gameMapManager = new GameMapManager(this);
         this.gameTeamManager = new GameTeamManager(this);
+        this.gameShopManager = new GameShopManager(this);
     }
 
     private void registerListeners() {
@@ -93,7 +96,7 @@ public class BedWars extends JavaPlugin {
 
         /* BEDWARS */
         pluginManager.registerEvents(new BedWarsDropOutListener(this), this);
-        pluginManager.registerEvents(new BedWarsShopInteractListener(), this);
+        pluginManager.registerEvents(new BedWarsShopInteractListener(this), this);
     }
 
     private void registerCommands() {
@@ -140,5 +143,9 @@ public class BedWars extends JavaPlugin {
 
     public GameTeamManager getGameTeamManager() {
         return gameTeamManager;
+    }
+
+    public GameShopManager getGameShopManager() {
+        return gameShopManager;
     }
 }

@@ -31,7 +31,7 @@ public class BlockPlaceListener implements Listener {
                 event.setCancelled(true);
             }
         } else {
-            if(!Constants.PLACEABLE_BLOCKS.contains(block.getType())) {
+            if(!bedWars.getGameManager().PLACEABLE_BLOCKS.contains(block.getType())) {
                 if(player.getGameMode() != GameMode.CREATIVE) {
                     event.setCancelled(true);
                 }

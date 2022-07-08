@@ -17,8 +17,8 @@ public class IngameTimer extends TimerTask {
 
     public IngameTimer(BedWars bedWars) {
         super(bedWars, false, 0, 20);
-        setCurrentSeconds(0);
         setTotalSeconds(TOTAL_SECONDS);
+        setCurrentSeconds(0);
     }
 
     @Override
