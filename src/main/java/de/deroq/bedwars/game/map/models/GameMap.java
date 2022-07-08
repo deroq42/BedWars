@@ -2,6 +2,7 @@ package de.deroq.bedwars.game.map.models;
 
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
+import de.deroq.bedwars.npc.NPC;
 import de.deroq.bedwars.utils.Constants;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bukkit.Location;
@@ -28,6 +29,7 @@ public class GameMap {
 
     private List<GameTeam> gameTeams;
     private List<Location> placedBlocks;
+    private List<NPC> shops;
 
     /* Public constructor due to pojo exceptions. */
     public GameMap(String muid, String serverGroup) {
@@ -143,5 +145,14 @@ public class GameMap {
 
     public void setPlacedBlocks(List<Location> placedBlocks) {
         this.placedBlocks = placedBlocks;
+    }
+
+    @BsonIgnore
+    public List<NPC> getShops() {
+        return shops;
+    }
+
+    public void setShops(List<NPC> shops) {
+        this.shops = shops;
     }
 }

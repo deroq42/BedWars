@@ -5,7 +5,7 @@ import de.deroq.bedwars.game.map.models.GameMap;
 import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
-import de.deroq.bedwars.models.ItemBuilder;
+import de.deroq.bedwars.game.models.ItemBuilder;
 import de.deroq.bedwars.utils.Constants;
 
 import org.bukkit.Bukkit;

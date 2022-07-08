@@ -3,6 +3,7 @@ package de.deroq.bedwars.timers.lobby;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.map.models.GameMap;
 import de.deroq.bedwars.game.team.models.GameTeamType;
+import de.deroq.bedwars.npc.models.PacketReader;
 import de.deroq.bedwars.timers.TimerTask;
 import de.deroq.bedwars.timers.ingame.IngameTimer;
 import de.deroq.bedwars.utils.BukkitUtils;
@@ -40,12 +41,12 @@ public class LobbyTimer extends TimerTask {
 
 
         if(Arrays.asList(60, 30, 10, 5, 4, 3, 2, 1).contains(currentSeconds)) {
-            BukkitUtils.sendBroadcastMessage("Die Runde startet in §e" + currentSeconds + " " + (currentSeconds != 1 ? "Sekunden" : "Sekunde"));
+            BukkitUtils.sendBroadcastMessage("Die Runde startet in §e" + currentSeconds + " " + (currentSeconds != 1 ? "Sekunden" : "Sekunde"), true);
             BukkitUtils.sendBroadcastSound(Sound.NOTE_BASS);
 
             if(currentSeconds == 10) {
                 GameMap gameMap = bedWars.getGameManager().getCurrentGameMap();
-                BukkitUtils.sendBroadcastMessage("Es wird auf der Map §e" + gameMap.getMuid() + " §7gespielt, gebaut von: §e" + gameMap.getBuilders());
+                BukkitUtils.sendBroadcastMessage("Es wird auf der Map §e" + gameMap.getMuid() + " §7gespielt, gebaut von: §e" + gameMap.getBuilders(), true);
             }
         }
     }
@@ -56,14 +57,14 @@ public class LobbyTimer extends TimerTask {
         ingameTimer.onStart();
         onStop();
 
+        BukkitUtils.sendBroadcastMessage("§eDas Spiel hat begonnen", true);
+
         bedWars.getGameManager().setGameState(GameState.INGAME);
         bedWars.getGameTeamManager().allocateTeams();
         bedWars.getGameManager().teleportToSpawns();
         bedWars.getGameManager().startSpawningItems();
         bedWars.getGameManager().spawnShops();
         bedWars.getGameManager().setCurrentTimer(ingameTimer);
-
-        BukkitUtils.sendBroadcastMessage("§eDas Spiel hat begonnen");
         bedWars.getGameManager().getAlive().forEach(gamePlayer -> {
             Player player = gamePlayer.getPlayer();
             GameTeamType gameTeamType = gamePlayer.getGameTeam().getGameTeamType();
@@ -71,6 +72,10 @@ public class LobbyTimer extends TimerTask {
             bedWars.getGameManager().setIngameScoreboard(gamePlayer);
             PlayerUtils.loadPlayer(player);
             player.sendMessage(Constants.PREFIX + "Dein Team: " + gameTeamType.getColorCode() + gameTeamType.getName());
+
+            PacketReader packetReader = new PacketReader(bedWars, gamePlayer);
+            packetReader.inject();
+            gamePlayer.setPacketReader(packetReader);
         });
     }
 }

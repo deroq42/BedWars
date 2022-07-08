@@ -36,7 +36,7 @@ public class PlayerDeathListener implements Listener {
         GameTeamType killedGameTeamType = killedGamePlayer.getGameTeam().getGameTeamType();
 
         if(killer == null) {
-            BukkitUtils.sendBroadcastMessage(killedGameTeamType.getColorCode() + killed.getName() + " §7ist gestorben");
+            BukkitUtils.sendBroadcastMessage(killedGameTeamType.getColorCode() + killed.getName() + " §7ist gestorben", true);
         } else {
             Optional<GamePlayer> optionalKillerGamePlayer = bedWars.getGameManager().getGamePlayer(killer.getUniqueId());
             if(!optionalKillerGamePlayer.isPresent()) {
@@ -45,9 +45,10 @@ public class PlayerDeathListener implements Listener {
 
             GamePlayer killerGamePlayer = optionalKillerGamePlayer.get();
             GameTeamType killerGameTeamType = killerGamePlayer.getGameTeam().getGameTeamType();
-            BukkitUtils.sendBroadcastMessage(killedGameTeamType.getColorCode() + killed.getName() + " §7wurde von " + killerGameTeamType.getColorCode() + killer.getName() + " §7getötet");
+            BukkitUtils.sendBroadcastMessage(killedGameTeamType.getColorCode() + killed.getName() + " §7wurde von " + killerGameTeamType.getColorCode() + killer.getName() + " §7getötet", true);
         }
 
+        bedWars.getGameManager().spawnShops();
         bedWars.getGameManager().teleportToSpawn(killedGamePlayer);
 
         if(bedWars.getGameManager().checkForDropOut(killedGamePlayer)) {

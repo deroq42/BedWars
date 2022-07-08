@@ -37,7 +37,7 @@ public class PlayerQuitListener implements Listener {
         bedWars.getGameManager().getGamePlayers().remove(gamePlayer);
 
         if(bedWars.getGameManager().getGameState() == GameState.LOBBY) {
-            BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde verlassen " + BukkitUtils.getOnlinePlayers(bedWars.getGameManager().MAX_PLAYERS));
+            BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde verlassen " + BukkitUtils.getOnlinePlayers(bedWars.getGameManager().MAX_PLAYERS), true);
             bedWars.getGameTeamManager().onQuit(gamePlayer);
             return;
         }
@@ -45,7 +45,7 @@ public class PlayerQuitListener implements Listener {
         if(bedWars.getGameManager().getGameState() == GameState.INGAME) {
             if(!gamePlayer.isSpectator()) {
                 GameTeamType gameTeamType = gamePlayer.getGameTeam().getGameTeamType();
-                BukkitUtils.sendBroadcastMessage(gameTeamType.getColorCode() + player.getName() + " §7hat die Runde verlassen");
+                BukkitUtils.sendBroadcastMessage(gameTeamType.getColorCode() + player.getName() + " §7hat die Runde verlassen", true);
                 bedWars.getGameManager().onCombatLog(gamePlayer);
                 Bukkit.getPluginManager().callEvent(new BedWarsDropOutEvent(gamePlayer));
             }

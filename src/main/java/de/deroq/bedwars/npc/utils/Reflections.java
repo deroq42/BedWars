@@ -3,6 +3,7 @@ package de.deroq.bedwars.npc.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 public class Reflections {
@@ -13,8 +14,8 @@ public class Reflections {
                 Object handle = players.getClass().getMethod("getHandle").invoke(players);
                 Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
                 playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, packet);
-            } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
-                Bukkit.getLogger().warning("Error while sending packet: " + e.getMessage());
+            } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException |
+                     NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
@@ -24,7 +25,6 @@ public class Reflections {
         try {
             return Class.forName("net.minecraft.server." + getServerVersion() + "." + name);
         } catch (ClassNotFoundException e) {
-            Bukkit.getLogger().warning("Error while getting NMS class " + name + ":" + e.getMessage());
             e.printStackTrace();
         }
 
@@ -35,7 +35,6 @@ public class Reflections {
         try {
             return Class.forName("org.bukkit.craftbukkit." + getServerVersion() + "." + name);
         } catch (ClassNotFoundException e) {
-            Bukkit.getLogger().warning("Error while getting CraftBukkit class " + name + ":" + e.getMessage());
             e.printStackTrace();
         }
 
@@ -44,5 +43,26 @@ public class Reflections {
 
     public String getServerVersion() {
         return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+    }
+
+    public void setValue(Object object, String name, Object value) {
+        try {
+            Field field = object.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+            field.set(object, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Object getValue(Object object, String name) {
+        try {
+            Field field = object.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+            return field.get(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -6,20 +6,24 @@ import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.map.models.GameMap;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
+import de.deroq.bedwars.npc.NPC;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
 import de.deroq.database.services.mongo.MongoDatabaseServiceMethods;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class GameMapManager {
 
+    private final BedWars bedWars;
     private final MongoDatabaseServiceMethods databaseServiceMethods;
     private final MongoCollection<GameMap> collection;
     private final Map<String, GameMap> mapCache;
 
     public GameMapManager(BedWars bedWars) {
+        this.bedWars = bedWars;
         this.databaseServiceMethods = bedWars.getMongoDatabaseService().getDatabaseServiceMethods();
         this.collection = bedWars.getMongoDatabaseService().getCollection("bedWarsMaps-" + Constants.SERVER_GROUP, GameMap.class);
         this.mapCache = new HashMap<>();
@@ -105,13 +109,15 @@ public class GameMapManager {
     }
 
     /**
-     * Creates GameTeams, etc. for all loaded maps.
+     * Creates GameTeams, Shops, etc. for all loaded maps.
      */
     private void setupMaps() {
         mapCache.values().forEach(gameMap -> {
             gameMap.setGameTeams(new ArrayList<>());
             gameMap.setPlacedBlocks(new ArrayList<>());
+            gameMap.setShops(new ArrayList<>());
 
+            /* Create new GameTeams and add them to a list. */
             gameMap.getTeams().forEach(gameTeamType -> {
                 GameTeam gameTeam = GameTeam.create(
                         GameTeamType.valueOf(gameTeamType),
@@ -120,6 +126,24 @@ public class GameMapManager {
 
                 gameMap.getGameTeams().add(gameTeam);
             });
+
+            /* Creates new npcs so the entity ids get loaded. */
+            gameMap.getShopLocations()
+                    .stream()
+                    .map(BukkitUtils::locationFromString)
+                    .forEach(location -> {
+                        NPC npc = new NPC.builder()
+                                .setUuid(UUID.randomUUID())
+                                .setName("§6§lShop")
+                                .setValue(Constants.SHOP_VALUE)
+                                .setSignature(Constants.SHOP_SIGNATURE)
+                                .setLocation(location)
+                                .build();
+
+                        npc.create();
+                        Bukkit.getScheduler().runTaskLater(bedWars, npc::destroy, 5);
+                        gameMap.getShops().add(npc);
+                    });
         });
     }
 

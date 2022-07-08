@@ -36,6 +36,7 @@ public class GameManager {
     private GameMap currentGameMap;
     private Collection<GamePlayer> gamePlayers;
     private boolean forceStarted;
+    private boolean forceMapped;
     public final Location LOBBY_LOCATION;
     public final int MIN_PLAYERS;
     public final int MAX_PLAYERS;
@@ -50,6 +51,7 @@ public class GameManager {
         this.gameState = GameState.LOBBY;
         this.gamePlayers = new ArrayList<>();
         this.forceStarted = false;
+        this.forceMapped = false;
 
         this.LOBBY_LOCATION = BukkitUtils.locationFromString(bedWars.getFileManager().getSettingsConfig().getWaitingLobbyLocation());
         this.MIN_PLAYERS = bedWars.getFileManager().getSettingsConfig().getMinPlayers();
@@ -145,20 +147,8 @@ public class GameManager {
      * Spawns all shops.
      */
     public void spawnShops() {
-        currentGameMap.getShopLocations()
-                .stream()
-                .map(BukkitUtils::locationFromString)
-                .forEach(location -> {
-                    NPC npc = new NPC.builder()
-                            .setUuid(UUID.randomUUID())
-                            .setName("§6§lShop")
-                            .setValue(Constants.SHOP_VALUE)
-                            .setSignature(Constants.SHOP_SIGNATURE)
-                            .setLocation(location)
-                            .build();
-
-                    npc.spawn();
-                });
+        /* Fake respawn so the entity id stays the same. */
+        currentGameMap.getShops().forEach(NPC::performFakeRespawn);
     }
 
     /**
@@ -251,7 +241,7 @@ public class GameManager {
 
         });
 
-        BukkitUtils.sendBroadcastMessage("Team " + gameTeamType.getColorCode() + gameTeamType.getName() + " §7hat die Runde gewonnen!");
+        BukkitUtils.sendBroadcastMessage("Team " + gameTeamType.getColorCode() + gameTeamType.getName() + " §7hat die Runde gewonnen!", true);
         BukkitUtils.spawnFirework(LOBBY_LOCATION);
         this.gameState = GameState.RESTART;
         initRestartTimer();
@@ -276,7 +266,7 @@ public class GameManager {
     public void setLobbyScoreboard(GamePlayer gamePlayer) {
         LobbyScoreboard lobbyScoreboard = new LobbyScoreboard(bedWars);
         lobbyScoreboard.setScoreboard(gamePlayer.getPlayer());
-        lobbyScoreboard.setTablist(gamePlayer.getPlayer());
+        lobbyScoreboard.setTablist();
         gamePlayer.setGameScoreboard(lobbyScoreboard);
     }
 
@@ -286,7 +276,7 @@ public class GameManager {
     public void setIngameScoreboard(GamePlayer gamePlayer) {
         IngameScoreboard ingameScoreboard = new IngameScoreboard(bedWars);
         ingameScoreboard.setScoreboard(gamePlayer.getPlayer());
-        ingameScoreboard.setTablist(gamePlayer.getPlayer());
+        ingameScoreboard.setTablist();
         gamePlayer.setGameScoreboard(ingameScoreboard);
     }
 
@@ -350,11 +340,26 @@ public class GameManager {
                 .collect(Collectors.toList());
     }
 
+    public List<GamePlayer> getSpectators() {
+        return gamePlayers
+                .stream()
+                .filter(GamePlayer::isSpectator)
+                .collect(Collectors.toList());
+    }
+
     public boolean isForceStarted() {
         return forceStarted;
     }
 
     public void setForceStarted(boolean forceStarted) {
         this.forceStarted = forceStarted;
+    }
+
+    public boolean isForceMapped() {
+        return forceMapped;
+    }
+
+    public void setForceMapped(boolean forceMapped) {
+        this.forceMapped = forceMapped;
     }
 }

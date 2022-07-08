@@ -44,6 +44,12 @@ public class ForceMapCommand extends Command {
             return true;
         }
 
+        if(bedWars.getGameManager().isForceMapped()) {
+            player.sendMessage(Constants.PREFIX + "Es wurde bereits eine Map ausgewählt");
+            return true;
+        }
+
+        bedWars.getGameManager().setForceMapped(true);
         bedWars.getGameManager().setCurrentGameMap(bedWars.getGameMapManager().getMapCache().get(map));
         bedWars.getGameManager().updateScoreboard();
         player.sendMessage(Constants.PREFIX + "§aMap wurde geändert");

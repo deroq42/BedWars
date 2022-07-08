@@ -28,7 +28,7 @@ public class LobbyScoreboard extends GameScoreboard {
     }
 
     @Override
-    public void setTablist(Player player) {
+    public void setTablist() {
         Team devTeam = scoreboard.registerNewTeam("0000Dev");
         devTeam.setPrefix("§cDev §7| §c");
 
@@ -38,8 +38,10 @@ public class LobbyScoreboard extends GameScoreboard {
         Bukkit.getOnlinePlayers().forEach(players -> {
             if(players.isOp()) {
                 devTeam.addEntry(players.getName());
+                players.setDisplayName(devTeam.getPrefix() + players.getName());
             } else {
                 playerTeam.addEntry(players.getName());
+                players.setDisplayName(playerTeam.getPrefix() + players.getName());
             }
         });
     }
@@ -63,8 +65,10 @@ public class LobbyScoreboard extends GameScoreboard {
         Bukkit.getOnlinePlayers().forEach(players -> {
             if(players.isOp()) {
                 devTeam.addEntry(players.getName());
+                players.setDisplayName(devTeam.getPrefix() + players.getName());
             } else {
                 playerTeam.addEntry(players.getName());
+                players.setDisplayName(playerTeam.getPrefix() + players.getName());
             }
         });
     }

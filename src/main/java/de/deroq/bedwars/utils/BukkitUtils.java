@@ -32,20 +32,12 @@ public class BukkitUtils {
         return new Location(world, x, y, z, yaw, pitch);
     }
 
-    public static void sendBroadcastMessage(String message) {
-        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Constants.PREFIX + message));
+    public static void sendBroadcastMessage(String message, boolean prefix) {
+        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage((prefix ? Constants.PREFIX + message : message)));
     }
 
     public static void sendBroadcastSound(Sound sound) {
         Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, 3f, 3f));
-    }
-
-    public static void sendBroadcastSoundInRadius(Location location, int x, int y, int z, Sound sound) {
-        location.getWorld().getNearbyEntities(location, x, y, z).forEach(entity -> ((Player) entity).playSound(entity.getLocation(), sound, 3f, 3f));
-    }
-
-    public static void sendBroadcastSoundInRadius(Player player, int x, int y, int z, Sound sound) {
-        player.getNearbyEntities(x, y, z).forEach(entity -> ((Player) entity).playSound(entity.getLocation(), sound, 3f, 3f));
     }
 
     public static void spawnFirework(Location location) {

@@ -23,7 +23,7 @@ public abstract class GameScoreboard {
 
     public abstract void setScoreboard(Player player);
 
-    public abstract void setTablist(Player player);
+    public abstract void setTablist();
 
     public abstract void updateScoreboard();
 

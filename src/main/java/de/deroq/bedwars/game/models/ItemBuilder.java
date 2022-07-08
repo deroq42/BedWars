@@ -1,4 +1,4 @@
-package de.deroq.bedwars.models;
+package de.deroq.bedwars.game.models;
 
 import org.bukkit.Color;
 import org.bukkit.DyeColor;

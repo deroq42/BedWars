@@ -1,6 +1,6 @@
 package de.deroq.bedwars.game.map.models;
 
-import de.deroq.bedwars.models.ItemBuilder;
+import de.deroq.bedwars.game.models.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

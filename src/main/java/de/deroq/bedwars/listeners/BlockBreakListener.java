@@ -67,7 +67,7 @@ public class BlockBreakListener implements Listener {
 
                 GameTeamType bedGameTeamType = gameTeam.getGameTeamType();
                 GameTeamType playerGameTeamType = gamePlayer.getGameTeam().getGameTeamType();
-                BukkitUtils.sendBroadcastMessage("Das Bett von Team " + bedGameTeamType.getColorCode() + bedGameTeamType.getName() + " §7wurde von " + playerGameTeamType.getColorCode() + player.getName() + " §7zerstört");
+                BukkitUtils.sendBroadcastMessage("Das Bett von Team " + bedGameTeamType.getColorCode() + bedGameTeamType.getName() + " §7wurde von " + playerGameTeamType.getColorCode() + player.getName() + " §7zerstört", true);
                 BukkitUtils.sendBroadcastSound(Sound.WITHER_DEATH);
 
                 gameTeam.setBedGone(true);

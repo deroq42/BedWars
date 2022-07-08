@@ -24,7 +24,8 @@ public class IngameTimer extends TimerTask {
     @Override
     public void onTick() {
         if(Arrays.asList(30*60, 45*60, 55*60, 59*60).contains(currentSeconds)) {
-            BukkitUtils.sendBroadcastMessage("Die Runde endet in §e" + (TOTAL_SECONDS - currentSeconds) / 60 + " Minuten");
+            final int REMAINING_TIME = (TOTAL_SECONDS - currentSeconds) / 60;
+            BukkitUtils.sendBroadcastMessage("Die Runde endet in §e" + REMAINING_TIME + " Minuten", true);
         }
     }
 

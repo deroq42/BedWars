@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.npc.utils.Reflections;
+import jnr.ffi.annotations.In;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -37,9 +38,9 @@ public class NPC extends Reflections implements Serializable {
     }
 
     /**
-     * Spawns a npc.
+     * Creates a new npc.
      */
-    public void spawn() {
+    public void create() {
         try {
             /* Invoking net.minecraft.server.v1_8_R3.MinecraftServer. */
             Object minecraftServer = getCraftBukkitClass("CraftServer")
@@ -71,20 +72,63 @@ public class NPC extends Reflections implements Serializable {
             this.entityPlayer = (EntityPlayer) npc;
             setLocation();
             addToTabList();
+            spawn();
+            fixHeadDirection(location.getYaw(), location.getPitch());
+            Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(BedWars.class), this::removeFromTabList, 10);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                 InstantiationException e) {
+            Bukkit.getLogger().warning("Error while spawning NPC " + name + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Spawns a npc.
+     */
+    public void spawn() {
+        try {
             /* Gets the PacketPlayOutNamedEntitySpawn class and creates a new instance of it with param EntityPlayer. */
             Class<?> packetPlayOutNamedEntitySpawnClass = getNMSClass("PacketPlayOutNamedEntitySpawn");
             Constructor<?> packetPlayOutNamedEntitySpawnConstructor = packetPlayOutNamedEntitySpawnClass.getConstructor(getNMSClass("EntityHuman"));
             Object packetPlayOutNamedEntitySpawn = packetPlayOutNamedEntitySpawnConstructor.newInstance(npc);
 
             sendPacket(packetPlayOutNamedEntitySpawn);
-            fixHeadDirection(location.getYaw(), location.getPitch());
-            Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(BedWars.class), this::removeFromTabList, 20);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
-                 InstantiationException e) {
-            Bukkit.getLogger().warning("Error while spawning NPC " + name + ": " + e.getMessage());
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Destroys a npc.
+     */
+    public void destroy() {
+        try {
+            /* Gets the PacketPlayOutEntityDestroy class and creates a new instance of it with param int. */
+            Class<?> packetPlayOutEntityDestroyClass = getNMSClass("PacketPlayOutEntityDestroy");
+            Constructor<?> packetPlayOutEntityDestroyConstructor = packetPlayOutEntityDestroyClass.getConstructor(int[].class);
+            Object packetPlayOutEntityDestroy = packetPlayOutEntityDestroyConstructor.newInstance(new int[]{entityPlayer.getId()});
+
+            sendPacket(packetPlayOutEntityDestroy);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Respawns a npc.
+     */
+    public void performFakeRespawn() {
+        destroy();
+        removeFromTabList();
+
+        Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(BedWars.class), () -> {
+            addToTabList();
+            spawn();
+            fixHeadDirection(location.getYaw(), location.getPitch());
+            Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(BedWars.class), this::removeFromTabList, 10);
+        }, 5);
     }
 
     /**
@@ -112,6 +156,7 @@ public class NPC extends Reflections implements Serializable {
      * Adds a npc to the tablist.
      */
     public void addToTabList() {
+
         try {
             Object array = Array.newInstance(getNMSClass("EntityPlayer"), 1);
             Array.set(array, 0, npc);

@@ -27,6 +27,7 @@ public class BedWarsDropOutListener implements Listener {
         bedWars.getGameManager().updateScoreboard();
         gameTeam.getPlayers().remove(gamePlayer.getUuid());
         gamePlayer.setGameTeam(null);
+        gamePlayer.getPacketReader().eject();
 
         if(gameTeam.getPlayers().size() != 0) {
             return;
@@ -36,8 +37,8 @@ public class BedWarsDropOutListener implements Listener {
         GameMap gameMap = bedWars.getGameManager().getCurrentGameMap();
         gameMap.getGameTeams().remove(gameTeam);
 
-        BukkitUtils.sendBroadcastMessage("Team " + gameTeamType.getColorCode() + gameTeamType.getName() + " §7ist ausgeschieden");
-        BukkitUtils.sendBroadcastMessage("Verbleibende Teams: §e" + gameMap.getGameTeams().size());
+        BukkitUtils.sendBroadcastMessage("Team " + gameTeamType.getColorCode() + gameTeamType.getName() + " §7ist ausgeschieden", true);
+        BukkitUtils.sendBroadcastMessage("Verbleibende Teams: §e" + gameMap.getGameTeams().size(), true);
 
         GameTeam winnerTeam = bedWars.getGameManager().checkForWin();
         if(winnerTeam != null) {

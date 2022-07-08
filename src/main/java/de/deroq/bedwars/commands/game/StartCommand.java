@@ -45,8 +45,8 @@ public class StartCommand extends Command {
             currentTimer = bedWars.getGameManager().createLobbyTimer();
         }
 
-        currentTimer.setCurrentSeconds(11);
         bedWars.getGameManager().setForceStarted(true);
+        currentTimer.setCurrentSeconds(11);
         player.sendMessage(Constants.PREFIX + "§aDie Runde wird gestartet");
         return false;
     }

@@ -41,7 +41,7 @@ public class IngameScoreboard extends GameScoreboard {
     }
 
     @Override
-    public void setTablist(Player player) {
+    public void setTablist() {
         bedWars.getGameManager().getCurrentGameMap().getGameTeams().forEach(gameTeam -> {
             GameTeamType gameTeamType = gameTeam.getGameTeamType();
             Team team = scoreboard.registerNewTeam("tablist-" + gameTeamType.getName());
@@ -52,13 +52,16 @@ public class IngameScoreboard extends GameScoreboard {
         spectatorTeam.setPrefix("§7");
 
         bedWars.getGameManager().getGamePlayers().forEach(gamePlayer -> {
+            Player player = gamePlayer.getPlayer();
             GameTeam gameTeam = gamePlayer.getGameTeam();
 
             if(gameTeam == null) {
-                spectatorTeam.addEntry(gamePlayer.getPlayer().getName());
+                spectatorTeam.addEntry(player.getName());
+                player.setDisplayName(spectatorTeam.getPrefix() + player.getName());
             } else {
                 GameTeamType gameTeamType = gameTeam.getGameTeamType();
-                scoreboard.getTeam("tablist-" + gameTeamType.getName()).addEntry(gamePlayer.getPlayer().getName());
+                scoreboard.getTeam("tablist-" + gameTeamType.getName()).addEntry(player.getName());
+                player.setDisplayName(gameTeamType.getColorCode() + player.getName());
             }
         });
     }
@@ -79,18 +82,21 @@ public class IngameScoreboard extends GameScoreboard {
     @Override
     public void updateTablist() {
         Team spectatorTeam = scoreboard.getTeam("tablist-spec");
-
         if(spectatorTeam == null) {
             return;
         }
 
         bedWars.getGameManager().getGamePlayers().forEach(gamePlayer -> {
+            Player player = gamePlayer.getPlayer();
             GameTeam gameTeam = gamePlayer.getGameTeam();
 
             if(gameTeam == null) {
-                spectatorTeam.addEntry(gamePlayer.getPlayer().getName());
+                spectatorTeam.addEntry(player.getName());
+                player.setDisplayName(spectatorTeam.getPrefix() + player.getName());
             } else {
-                scoreboard.getTeam("tablist-" + gameTeam.getGameTeamType().getName()).addEntry(gamePlayer.getPlayer().getName());
+                GameTeamType gameTeamType = gameTeam.getGameTeamType();
+                scoreboard.getTeam("tablist-" + gameTeamType.getName()).addEntry(player.getName());
+                player.setDisplayName(gameTeamType.getColorCode() + player.getName());
             }
         });
     }

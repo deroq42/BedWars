@@ -33,7 +33,7 @@ public class RestartTimer extends TimerTask {
 
 
         if(Arrays.asList(20, 10, 5, 4, 3, 2, 1).contains(currentSeconds)) {
-            BukkitUtils.sendBroadcastMessage("Die Runde startet in §e" + currentSeconds + " " + (currentSeconds != 1 ? "Sekunden" : "Sekunde") + " §7neu");
+            BukkitUtils.sendBroadcastMessage("Die Runde startet in §e" + currentSeconds + " " + (currentSeconds != 1 ? "Sekunden" : "Sekunde") + " §7neu", true);
         }
     }
 

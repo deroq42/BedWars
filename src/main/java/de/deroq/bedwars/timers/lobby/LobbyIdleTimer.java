@@ -25,7 +25,7 @@ public class LobbyIdleTimer extends TimerTask {
         }
 
         if(Bukkit.getOnlinePlayers().size() < bedWars.getGameManager().MIN_PLAYERS) {
-            BukkitUtils.sendBroadcastMessage("Es werden §e" + bedWars.getGameManager().MIN_PLAYERS + " Spieler §7benötigt, um die Runde zu starten");
+            BukkitUtils.sendBroadcastMessage("Es werden §e" + bedWars.getGameManager().MIN_PLAYERS + " Spieler §7benötigt, um die Runde zu starten", true);
         }
     }
 

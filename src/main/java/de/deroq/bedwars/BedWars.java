@@ -10,6 +10,7 @@ import de.deroq.bedwars.game.map.GameMapManager;
 import de.deroq.bedwars.game.team.GameTeamManager;
 import de.deroq.bedwars.listeners.*;
 import de.deroq.bedwars.listeners.bedwars.BedWarsDropOutListener;
+import de.deroq.bedwars.listeners.bedwars.BedWarsShopInteractListener;
 import de.deroq.bedwars.listeners.misc.*;
 import de.deroq.database.models.DatabaseService;
 import de.deroq.database.models.DatabaseServiceType;
@@ -77,7 +78,7 @@ public class BedWars extends JavaPlugin {
         pluginManager.registerEvents(new EntityDamageListener(this), this);
         pluginManager.registerEvents(new EntityDamageByEntityListener(this), this);
         pluginManager.registerEvents(new PlayerDeathListener(this), this);
-
+        pluginManager.registerEvents(new AsyncPlayerChatListener(this), this);
 
         /* MISC */
         pluginManager.registerEvents(new FoodLevelChangeListener(this), this);
@@ -92,6 +93,7 @@ public class BedWars extends JavaPlugin {
 
         /* BEDWARS */
         pluginManager.registerEvents(new BedWarsDropOutListener(this), this);
+        pluginManager.registerEvents(new BedWarsShopInteractListener(), this);
     }
 
     private void registerCommands() {
