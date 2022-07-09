@@ -38,7 +38,7 @@ public class BukkitUtils {
     }
 
     public static void sendBroadcastSound(Sound sound) {
-        Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, 3f, 3f));
+        Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, 3, 1));
     }
 
     public static void spawnFirework(Location location) {

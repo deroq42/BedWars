@@ -2,7 +2,6 @@ package de.deroq.bedwars.listeners;
 
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.models.GamePlayer;
-import de.deroq.bedwars.game.shop.category.GameShopCategoryType;
 import de.deroq.bedwars.utils.GameState;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -50,6 +49,11 @@ public class InventoryClickListener implements Listener {
         if (gamePlayer.isSpectator()) {
             event.setCancelled(true);
             return;
+        }
+
+        if(event.getClickedInventory().getTitle().equals("§8Shop")) {
+            event.setCancelled(true);
+            bedWars.getGameShopManager().handleInventoryClick(player, itemStack, event.getClick(), event.getHotbarButton());
         }
     }
 }

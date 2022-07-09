@@ -17,7 +17,7 @@ public abstract class GameScoreboard {
         this.bedWars = bedWars;
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         this.objective = scoreboard.registerNewObjective("bedwars", "dummy");
-        objective.setDisplayName("  §f§lGOMMEHD.NET  ");
+        objective.setDisplayName("§f§lGOMMEHD.NET");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 

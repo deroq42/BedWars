@@ -1,21 +1,23 @@
 package de.deroq.bedwars.game.shop.item;
 
+import de.deroq.bedwars.game.models.ItemBuilder;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public enum GameShopItemPriceType {
 
-    BRONZE("§c", "Bronze", Material.CLAY_BRICK),
-    IRON("§7", "Eisen", Material.IRON_INGOT),
-    GOLD("§6", "Gold", Material.GOLD_INGOT);
+    BRONZE("§c", "Bronze", new ItemBuilder(Material.CLAY_BRICK).setDisplayName("§cBronze").build()),
+    IRON("§7", "Eisen", new ItemBuilder(Material.IRON_INGOT).setDisplayName("§7Eisen").build()),
+    GOLD("§6", "Gold", new ItemBuilder(Material.GOLD_INGOT).setDisplayName("§6Gpöd").build());
 
     private final String colorCode;
     private final String name;
-    private final Material material;
+    private final ItemStack itemStack;
 
-    GameShopItemPriceType(String colorCode, String name, Material material) {
+    GameShopItemPriceType(String colorCode, String name, ItemStack itemStack) {
         this.colorCode = colorCode;
         this.name = name;
-        this.material = material;
+        this.itemStack = itemStack;
     }
 
     public String getColorCode() {
@@ -26,7 +28,7 @@ public enum GameShopItemPriceType {
         return name;
     }
 
-    public Material getMaterial() {
-        return material;
+    public ItemStack getItemStack() {
+        return itemStack;
     }
 }

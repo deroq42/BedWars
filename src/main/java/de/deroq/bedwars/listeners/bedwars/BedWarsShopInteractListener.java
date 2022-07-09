@@ -24,7 +24,7 @@ public class BedWarsShopInteractListener implements Listener {
         NPC npc = event.getNpc();
 
         if(npc.getName().equals("§6§lShop")) {
-            player.openInventory(bedWars.getGameShopManager().getCategoryMenu());
+            player.openInventory(bedWars.getGameShopManager().getMainInventory());
         }
     }
 }

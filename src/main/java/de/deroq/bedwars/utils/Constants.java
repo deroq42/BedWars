@@ -29,7 +29,7 @@ public class Constants {
 
     public static final ItemStack PLACEHOLDER = new ItemBuilder(Material.STAINED_GLASS_PANE)
             .setData((short) 7)
-            .setDisplayName("")
+            .setDisplayName(" ")
             .build();
 
     public static final Set<String> GLOBAL_CHAT_PREFIXES = Stream.of(

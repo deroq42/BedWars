@@ -6,7 +6,7 @@ import de.deroq.bedwars.game.shop.category.GameShopCategoryType;
 import org.bukkit.Material;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ShopCategoriesConfig extends Config {
@@ -15,10 +15,10 @@ public class ShopCategoriesConfig extends Config {
 
     private ShopCategoriesConfig(File file) {
         super(file);
-        this.shopCategories = Arrays.asList(GameShopCategory.create(
+        this.shopCategories = Collections.singletonList(GameShopCategory.create(
                 "Blöcke",
                 Material.SANDSTONE,
-                "§7Hier findest du Blöcke aller Art",
+                Collections.singletonList("§7Hier findest du Blöcke aller Art"),
                 GameShopCategoryType.BLOCKS
         ));
     }

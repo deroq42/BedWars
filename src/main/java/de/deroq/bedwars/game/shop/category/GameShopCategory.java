@@ -2,14 +2,16 @@ package de.deroq.bedwars.game.shop.category;
 
 import org.bukkit.Material;
 
+import java.util.List;
+
 public class GameShopCategory {
 
     private final String name;
     private final Material displayedItem;
-    private final String description;
+    private final List<String> description;
     private final GameShopCategoryType categoryType;
 
-    private GameShopCategory(String name, Material displayedItem, String description, GameShopCategoryType categoryType) {
+    private GameShopCategory(String name, Material displayedItem, List<String> description, GameShopCategoryType categoryType) {
         this.name = name;
         this.displayedItem = displayedItem;
         this.description = description;
@@ -24,7 +26,7 @@ public class GameShopCategory {
         return displayedItem;
     }
 
-    public String getDescription() {
+    public List<String> getDescription() {
         return description;
     }
 
@@ -32,7 +34,7 @@ public class GameShopCategory {
         return categoryType;
     }
 
-    public static GameShopCategory create(String name, Material displayedItem, String description, GameShopCategoryType categoryType) {
+    public static GameShopCategory create(String name, Material displayedItem, List<String> description, GameShopCategoryType categoryType) {
         return new GameShopCategory(name, displayedItem, description, categoryType);
     }
 }

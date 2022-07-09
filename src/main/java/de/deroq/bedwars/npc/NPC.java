@@ -5,7 +5,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.npc.utils.Reflections;
-import jnr.ffi.annotations.In;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,12 +34,14 @@ public class NPC extends Reflections implements Serializable {
         this.signature = signature;
         this.location = location;
         this.gameProfile = new GameProfile(uuid, name);
+
+        create();
     }
 
     /**
      * Creates a new npc.
      */
-    public void create() {
+    private void create() {
         try {
             /* Invoking net.minecraft.server.v1_8_R3.MinecraftServer. */
             Object minecraftServer = getCraftBukkitClass("CraftServer")
@@ -71,10 +72,6 @@ public class NPC extends Reflections implements Serializable {
 
             this.entityPlayer = (EntityPlayer) npc;
             setLocation();
-            addToTabList();
-            spawn();
-            fixHeadDirection(location.getYaw(), location.getPitch());
-            Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(BedWars.class), this::removeFromTabList, 10);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
                  InstantiationException e) {
             Bukkit.getLogger().warning("Error while spawning NPC " + name + ": " + e.getMessage());
@@ -92,43 +89,14 @@ public class NPC extends Reflections implements Serializable {
             Constructor<?> packetPlayOutNamedEntitySpawnConstructor = packetPlayOutNamedEntitySpawnClass.getConstructor(getNMSClass("EntityHuman"));
             Object packetPlayOutNamedEntitySpawn = packetPlayOutNamedEntitySpawnConstructor.newInstance(npc);
 
-            sendPacket(packetPlayOutNamedEntitySpawn);
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
-                 IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Destroys a npc.
-     */
-    public void destroy() {
-        try {
-            /* Gets the PacketPlayOutEntityDestroy class and creates a new instance of it with param int. */
-            Class<?> packetPlayOutEntityDestroyClass = getNMSClass("PacketPlayOutEntityDestroy");
-            Constructor<?> packetPlayOutEntityDestroyConstructor = packetPlayOutEntityDestroyClass.getConstructor(int[].class);
-            Object packetPlayOutEntityDestroy = packetPlayOutEntityDestroyConstructor.newInstance(new int[]{entityPlayer.getId()});
-
-            sendPacket(packetPlayOutEntityDestroy);
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
-                 IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Respawns a npc.
-     */
-    public void performFakeRespawn() {
-        destroy();
-        removeFromTabList();
-
-        Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(BedWars.class), () -> {
             addToTabList();
-            spawn();
+            sendPacket(packetPlayOutNamedEntitySpawn);
             fixHeadDirection(location.getYaw(), location.getPitch());
             Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(BedWars.class), this::removeFromTabList, 10);
-        }, 5);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -92,12 +92,20 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLoreAll(List<String> lines) {
+        if(lines == null) {
+            return this;
+        }
+
         lore.addAll(lines);
         return this;
     }
 
     public ItemBuilder setDisplayName(String name) {
         if(meta == null) {
+            return this;
+        }
+
+        if(name == null) {
             return this;
         }
 
@@ -131,6 +139,10 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addEnchantmentAll(Map<String, Integer> enchantments) {
+        if(enchantments == null) {
+            return this;
+        }
+
         enchantments.forEach((enchantment, level) -> meta.addEnchant(Enchantment.getByName(enchantment), level, true));
         return this;
     }

@@ -1,7 +1,9 @@
 package de.deroq.bedwars.game.shop.item;
 
+import de.deroq.bedwars.game.models.ItemBuilder;
 import de.deroq.bedwars.game.shop.category.GameShopCategoryType;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
@@ -11,17 +13,17 @@ public class GameShopItem {
     private final String name;
     private final Material material;
     private final int amount;
-    private final List<String> lore;
+    private final List<String> description;
     private final Map<String, Integer> enchantments;
     private final GameShopCategoryType categoryType;
     private final GameShopItemPriceType priceType;
     private final int price;
 
-    private GameShopItem(String name, Material material, int amount, List<String> lore, Map<String, Integer> enchantments, GameShopCategoryType categoryType, GameShopItemPriceType priceType, int price) {
+    private GameShopItem(String name, Material material, int amount, List<String> description, Map<String, Integer> enchantments, GameShopCategoryType categoryType, GameShopItemPriceType priceType, int price) {
         this.name = name;
         this.material = material;
         this.amount = amount;
-        this.lore = lore;
+        this.description = description;
         this.enchantments = enchantments;
         this.categoryType = categoryType;
         this.priceType = priceType;
@@ -40,8 +42,8 @@ public class GameShopItem {
         return amount;
     }
 
-    public List<String> getLore() {
-        return lore;
+    public List<String> getDescription() {
+        return description;
     }
 
     public Map<String, Integer> getEnchantments() {
@@ -58,6 +60,16 @@ public class GameShopItem {
 
     public int getPrice() {
         return price;
+    }
+
+    public ItemStack asItemStack() {
+        return new ItemBuilder(material)
+                .setDisplayName(name)
+                .setAmount(amount)
+                .addLoreLine("§fPreis: " + priceType.getColorCode() + price + " " + priceType.getName())
+                .addLoreAll(description)
+                .addEnchantmentAll(enchantments)
+                .build();
     }
 
     public static class builder {

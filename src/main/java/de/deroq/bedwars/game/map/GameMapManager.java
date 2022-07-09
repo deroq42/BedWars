@@ -140,8 +140,6 @@ public class GameMapManager {
                                 .setLocation(location)
                                 .build();
 
-                        npc.create();
-                        Bukkit.getScheduler().runTaskLater(bedWars, npc::destroy, 5);
                         gameMap.getShops().add(npc);
                     });
         });

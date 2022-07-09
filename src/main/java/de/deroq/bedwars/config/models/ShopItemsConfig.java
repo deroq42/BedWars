@@ -7,7 +7,7 @@ import de.deroq.bedwars.game.shop.item.GameShopItem;
 import org.bukkit.Material;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ShopItemsConfig extends Config {
@@ -16,11 +16,11 @@ public class ShopItemsConfig extends Config {
 
     private ShopItemsConfig(File file) {
         super(file);
-        this.shopItems = Arrays.asList(new GameShopItem.builder()
-                .setName("Sandstone")
+        this.shopItems = Collections.singletonList(new GameShopItem.builder()
+                .setName("Sandstein")
                 .setMaterial(Material.SANDSTONE)
                 .setAmount(2)
-                .setLore(Arrays.asList("§7Die idealen Blöcke um schnell in die Mitte zu kommen"))
+                .setLore(Collections.singletonList("§7Die idealen Blöcke um schnell in die Mitte zu kommen"))
                 .setEnchantments(null)
                 .setCategoryType(GameShopCategoryType.BLOCKS)
                 .setPriceType(GameShopItemPriceType.BRONZE)

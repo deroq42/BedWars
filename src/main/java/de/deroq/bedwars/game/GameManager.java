@@ -152,8 +152,7 @@ public class GameManager {
      * Spawns all shops.
      */
     public void spawnShops() {
-        /* Fake respawn so the entity id stays the same. */
-        currentGameMap.getShops().forEach(NPC::performFakeRespawn);
+        currentGameMap.getShops().forEach(NPC::spawn);
     }
 
     /**

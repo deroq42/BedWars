@@ -76,8 +76,10 @@ public class BlockBreakListener implements Listener {
             }
         } else {
             if(!bedWars.getGameManager().getCurrentGameMap().getPlacedBlocks().contains(block.getLocation())) {
-                event.setCancelled(true);
-                return;
+                if(player.getGameMode() != GameMode.CREATIVE) {
+                    event.setCancelled(true);
+                    return;
+                }
             }
 
             bedWars.getGameManager().getCurrentGameMap().getPlacedBlocks().remove(block.getLocation());
