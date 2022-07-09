@@ -4,27 +4,20 @@ import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.scoreboard.GameScoreboard;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class IngameScoreboard extends GameScoreboard {
-
-    private final Map<GameTeam, String> usedEntries;
 
     public IngameScoreboard(BedWars bedWars) {
         super(bedWars);
-        this.usedEntries = new HashMap<>();
     }
 
     @Override
     public void setScoreboard(Player player) {
         bedWars.getGameManager().getCurrentGameMap().getGameTeams().forEach(gameTeam -> {
             GameTeamType gameTeamType = gameTeam.getGameTeamType();
-            Team team = scoreboard.registerNewTeam("bed-" +gameTeamType.getName());
+            Team team = scoreboard.registerNewTeam("bed-" + gameTeamType.getName());
             String bedStatus = (gameTeam.isBedGone() ? "§4✘ " : "§2✔ ");
             String entry = getFreeEntry();
 
@@ -36,7 +29,7 @@ public class IngameScoreboard extends GameScoreboard {
             usedEntries.put(gameTeam, entry);
         });
 
-        objective.getScore("§5§l").setScore(bedWars.getGameManager().TEAM_SIZE + 1);
+        objective.getScore("§5").setScore(bedWars.getGameManager().TEAM_SIZE + 1);
         player.setScoreboard(scoreboard);
     }
 
@@ -45,7 +38,10 @@ public class IngameScoreboard extends GameScoreboard {
         bedWars.getGameManager().getCurrentGameMap().getGameTeams().forEach(gameTeam -> {
             GameTeamType gameTeamType = gameTeam.getGameTeamType();
             Team team = scoreboard.registerNewTeam("tablist-" + gameTeamType.getName());
-            team.setPrefix(gameTeamType.getColorCode() + gameTeamType.getName() + " §7| " + gameTeamType.getColorCode());
+            String name = gameTeamType.getName();
+            String colorCode = gameTeamType.getColorCode();
+
+            team.setPrefix(colorCode + name + " §7| " + colorCode);
         });
 
         Team spectatorTeam = scoreboard.registerNewTeam("tablist-spec");
@@ -55,12 +51,14 @@ public class IngameScoreboard extends GameScoreboard {
             Player player = gamePlayer.getPlayer();
             GameTeam gameTeam = gamePlayer.getGameTeam();
 
-            if(gameTeam == null) {
+            if (gameTeam == null) {
                 spectatorTeam.addEntry(player.getName());
                 player.setDisplayName(spectatorTeam.getPrefix() + player.getName());
             } else {
                 GameTeamType gameTeamType = gameTeam.getGameTeamType();
-                scoreboard.getTeam("tablist-" + gameTeamType.getName()).addEntry(player.getName());
+                String name = gameTeamType.getName();
+
+                scoreboard.getTeam("tablist-" + name).addEntry(player.getName());
                 player.setDisplayName(gameTeamType.getColorCode() + player.getName());
             }
         });
@@ -82,7 +80,7 @@ public class IngameScoreboard extends GameScoreboard {
     @Override
     public void updateTablist() {
         Team spectatorTeam = scoreboard.getTeam("tablist-spec");
-        if(spectatorTeam == null) {
+        if (spectatorTeam == null) {
             return;
         }
 
@@ -90,7 +88,7 @@ public class IngameScoreboard extends GameScoreboard {
             Player player = gamePlayer.getPlayer();
             GameTeam gameTeam = gamePlayer.getGameTeam();
 
-            if(gameTeam == null) {
+            if (gameTeam == null) {
                 spectatorTeam.addEntry(player.getName());
                 player.setDisplayName(spectatorTeam.getPrefix() + player.getName());
             } else {
@@ -99,18 +97,5 @@ public class IngameScoreboard extends GameScoreboard {
                 player.setDisplayName(gameTeamType.getColorCode() + player.getName());
             }
         });
-    }
-
-    private String getFreeEntry() {
-        for (ChatColor chatColor : ChatColor.values()) {
-            String entry = "§" + chatColor.getChar();
-            if (usedEntries.containsValue(entry)) {
-                continue;
-            }
-
-            return entry;
-        }
-
-        return null;
     }
 }

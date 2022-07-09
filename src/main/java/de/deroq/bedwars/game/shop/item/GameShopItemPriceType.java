@@ -8,7 +8,7 @@ public enum GameShopItemPriceType {
 
     BRONZE("§c", "Bronze", new ItemBuilder(Material.CLAY_BRICK).setDisplayName("§cBronze").build()),
     IRON("§7", "Eisen", new ItemBuilder(Material.IRON_INGOT).setDisplayName("§7Eisen").build()),
-    GOLD("§6", "Gold", new ItemBuilder(Material.GOLD_INGOT).setDisplayName("§6Gpöd").build());
+    GOLD("§6", "Gold", new ItemBuilder(Material.GOLD_INGOT).setDisplayName("§6Gold").build());
 
     private final String colorCode;
     private final String name;
