@@ -4,6 +4,7 @@ import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
+import de.deroq.bedwars.stats.models.StatsUser;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
 import de.deroq.bedwars.utils.GameState;
@@ -78,6 +79,10 @@ public class BlockBreakListener implements Listener {
                 gameTeam.setBedGone(true);
                 block.setType(Material.AIR);
                 bedWars.getGameManager().updateScoreboard();
+
+                StatsUser statsUser = gamePlayer.getStatsUser();
+                statsUser.addBed();
+                statsUser.addPoints(10);
             }
         } else {
             if(!bedWars.getGameManager().getCurrentGameMap().getPlacedBlocks().contains(block.getLocation())) {

@@ -9,6 +9,7 @@ import de.deroq.bedwars.game.scoreboard.lobby.LobbyScoreboard;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.npc.NPC;
+import de.deroq.bedwars.stats.models.StatsUser;
 import de.deroq.bedwars.timers.TimerTask;
 import de.deroq.bedwars.timers.lobby.LobbyIdleTimer;
 import de.deroq.bedwars.timers.lobby.LobbyTimer;
@@ -135,9 +136,6 @@ public class GameManager {
         getGamePlayers().forEach(gamePlayer -> gamePlayer.getPlayer().teleport(gamePlayer.getGameTeam().getSpawnLocation()));
     }
 
-    /**
-     * Starts spawning items.
-     */
     public void startSpawningItems() {
         currentGameMap.getItemSpawners()
                 .keySet()
@@ -152,9 +150,6 @@ public class GameManager {
                         }), gameSpawner.getDelay(), gameSpawner.getPeriod()));
     }
 
-    /**
-     * Spawns all shops.
-     */
     public void spawnShops() {
         currentGameMap.getShops().forEach(NPC::spawn);
     }
@@ -247,6 +242,11 @@ public class GameManager {
             setSpectator(gamePlayer, false);
             PlayerUtils.loadPlayer(player);
 
+            if(gamePlayer.getGameTeam().getGameTeamType() != gameTeamType) {
+                StatsUser statsUser = gamePlayer.getStatsUser();
+                statsUser.addWin();
+                statsUser.addPoints(20);
+            }
         });
 
         BukkitUtils.sendBroadcastMessage("Team " + gameTeamType.getColorCode() + gameTeamType.getName() + " §7hat die Runde gewonnen!", true);
@@ -268,9 +268,6 @@ public class GameManager {
         }
     }
 
-    /**
-     * Sets the lobby scoreboard.
-     */
     public void setLobbyScoreboard(GamePlayer gamePlayer) {
         LobbyScoreboard lobbyScoreboard = new LobbyScoreboard(bedWars);
         lobbyScoreboard.setScoreboard(gamePlayer.getPlayer());
@@ -278,9 +275,6 @@ public class GameManager {
         gamePlayer.setGameScoreboard(lobbyScoreboard);
     }
 
-    /**
-     * Sets the ingame scoreboard.
-     */
     public void setIngameScoreboard(GamePlayer gamePlayer) {
         IngameScoreboard ingameScoreboard = new IngameScoreboard(bedWars);
         ingameScoreboard.setScoreboard(gamePlayer.getPlayer());
@@ -288,16 +282,10 @@ public class GameManager {
         gamePlayer.setGameScoreboard(ingameScoreboard);
     }
 
-    /**
-     * Updates the scoreboard for all players.
-     */
     public void updateScoreboard() {
         getGamePlayers().forEach(gamePlayer -> gamePlayer.getGameScoreboard().updateScoreboard());
     }
 
-    /**
-     * Updates the tablist for all players.
-     */
     public void updateTablist() {
         getGamePlayers().forEach(gamePlayer -> gamePlayer.getGameScoreboard().updateTablist());
     }

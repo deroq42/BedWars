@@ -4,6 +4,7 @@ import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.map.models.GameMap;
 import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.npc.models.PacketReader;
+import de.deroq.bedwars.stats.models.StatsUser;
 import de.deroq.bedwars.timers.TimerTask;
 import de.deroq.bedwars.timers.ingame.IngameTimer;
 import de.deroq.bedwars.utils.BukkitUtils;
@@ -81,6 +82,9 @@ public class LobbyTimer extends TimerTask {
             PacketReader packetReader = new PacketReader(bedWars, gamePlayer);
             packetReader.inject();
             gamePlayer.setPacketReader(packetReader);
+
+            StatsUser statsUser = gamePlayer.getStatsUser();
+            statsUser.addGame();
         });
     }
 }

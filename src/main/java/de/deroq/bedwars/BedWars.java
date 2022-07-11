@@ -1,6 +1,7 @@
 package de.deroq.bedwars;
 
 import de.deroq.bedwars.commands.game.ForceMapCommand;
+import de.deroq.bedwars.commands.game.StatsCommand;
 import de.deroq.bedwars.commands.map.*;
 import de.deroq.bedwars.commands.misc.*;
 import de.deroq.bedwars.commands.game.StartCommand;
@@ -13,8 +14,12 @@ import de.deroq.bedwars.listeners.*;
 import de.deroq.bedwars.listeners.bedwars.BedWarsDropOutListener;
 import de.deroq.bedwars.listeners.bedwars.BedWarsShopInteractListener;
 import de.deroq.bedwars.listeners.misc.*;
+import de.deroq.bedwars.stats.StatsManager;
+import de.deroq.bedwars.stats.models.StatsUser;
+import de.deroq.bedwars.utils.Constants;
 import de.deroq.database.models.DatabaseService;
 import de.deroq.database.models.DatabaseServiceType;
+import de.deroq.database.services.cassandra.CassandraDatabaseService;
 import de.deroq.database.services.mongo.MongoDatabaseService;
 
 import org.bukkit.Bukkit;
@@ -22,6 +27,8 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Collections;
 
 /**
  * @author deroq
@@ -31,15 +38,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BedWars extends JavaPlugin {
 
     private MongoDatabaseService mongoDatabaseService;
+    private CassandraDatabaseService cassandraDatabaseService;
     private FileManager fileManager;
     private GameManager gameManager;
     private GameMapManager gameMapManager;
     private GameTeamManager gameTeamManager;
     private GameShopManager gameShopManager;
+    private StatsManager statsManager;
 
     @Override
     public void onEnable() {
-        initDatabase();
+        initMongoDatabase();
+        initCassandraDatabase();
         initManagers();
         registerListeners();
         registerCommands();
@@ -52,7 +62,7 @@ public class BedWars extends JavaPlugin {
         getLogger().info("BedWars has been disabled.");
     }
 
-    private void initDatabase() {
+    private void initMongoDatabase() {
         this.mongoDatabaseService = (MongoDatabaseService) new DatabaseService.builder(DatabaseServiceType.MONGO)
                 .setHost("localhost")
                 .setDatabase("bedwars")
@@ -64,6 +74,21 @@ public class BedWars extends JavaPlugin {
         mongoDatabaseService.connect();
     }
 
+    private void initCassandraDatabase() {
+        this.cassandraDatabaseService = (CassandraDatabaseService) new DatabaseService.builder(DatabaseServiceType.CASSANDRA)
+                .setHost("localhost")
+                .setDatabase("bedwars")
+                .setUsername("root")
+                .setPassword("123456")
+                .setPort(7000)
+                .setKeySpace("bedwars")
+                .setMappers(Collections.singletonList(StatsUser.class))
+                .build();
+
+        cassandraDatabaseService.connect();
+        cassandraDatabaseService.getDatabaseServiceMethods().createTable(Constants.CREATE_STATS_TABLE);
+    }
+
     private void initManagers() {
         this.fileManager = new FileManager();
         fileManager.loadFiles();
@@ -72,6 +97,7 @@ public class BedWars extends JavaPlugin {
         this.gameMapManager = new GameMapManager(this);
         this.gameTeamManager = new GameTeamManager(this);
         this.gameShopManager = new GameShopManager(this);
+        this.statsManager = new StatsManager(this);
     }
 
     private void registerListeners() {
@@ -109,6 +135,7 @@ public class BedWars extends JavaPlugin {
         /* GAME */
         commandMap.register("start", new StartCommand("start", this));
         commandMap.register("forcemap", new ForceMapCommand("forcemap", this));
+        commandMap.register("stats", new StatsCommand("stats", this));
 
         /* MAP */
         commandMap.register("createMap", new CreateMapCommand("createMap", this));
@@ -134,6 +161,10 @@ public class BedWars extends JavaPlugin {
         return mongoDatabaseService;
     }
 
+    public CassandraDatabaseService getCassandraDatabaseService() {
+        return cassandraDatabaseService;
+    }
+
     public FileManager getFileManager() {
         return fileManager;
     }
@@ -152,5 +183,9 @@ public class BedWars extends JavaPlugin {
 
     public GameShopManager getGameShopManager() {
         return gameShopManager;
+    }
+
+    public StatsManager getStatsManager() {
+        return statsManager;
     }
 }

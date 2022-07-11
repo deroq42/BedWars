@@ -37,11 +37,13 @@ public class PlayerJoinListener implements Listener {
             bedWars.getGameManager().teleportToLobby(player);
             bedWars.getGameManager().initLobbyTimer();
             bedWars.getGameManager().setLobbyScoreboard(gamePlayer);
+            bedWars.getStatsManager().getStatsUser(player.getName()).thenAcceptAsync(gamePlayer::setStatsUser);
         } else {
             bedWars.getGameManager().setSpectator(gamePlayer, true);
             bedWars.getGameManager().setIngameScoreboard(gamePlayer);
         }
 
+        bedWars.getStatsManager().createStatsUser(player.getUniqueId(), player.getName());
         bedWars.getGameManager().getGamePlayers().add(gamePlayer);
         bedWars.getGameManager().updateTablist();
     }

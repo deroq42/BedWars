@@ -1,4 +1,4 @@
-package de.deroq.bedwars.stats;
+package de.deroq.bedwars.stats.models;
 
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
@@ -15,9 +15,9 @@ import java.text.NumberFormat;
 @Table(keyspace = "bedwars", name = "stats")
 public class StatsUser {
 
-    private String uuid;
+    private final String uuid;
     @PartitionKey
-    private String name;
+    private final String name;
     private int points;
     private int kills;
     private int deaths;
@@ -25,20 +25,17 @@ public class StatsUser {
     private int wins;
     private int beds;
 
+    private StatsUser(String uuid, String name) {
+        this.uuid = uuid;
+        this.name = name;
+    }
+
     public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getPoints() {
@@ -148,5 +145,11 @@ public class StatsUser {
                 "§7Gewonnene Spiele: §6" + wins + "\n" +
                 "§7Zerstörte Betten: §6" + beds + "\n" +
                 "§7Siegeswahrscheinlichkeit: §6" + getFormattedWinProbability();
+    }
+
+    public static StatsUser create(String uuid, String name) {
+        return new StatsUser(
+                uuid,
+                name);
     }
 }

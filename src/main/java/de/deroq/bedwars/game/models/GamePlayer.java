@@ -3,6 +3,7 @@ package de.deroq.bedwars.game.models;
 import de.deroq.bedwars.game.scoreboard.GameScoreboard;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.npc.models.PacketReader;
+import de.deroq.bedwars.stats.models.StatsUser;
 import de.deroq.bedwars.utils.GameState;
 import de.deroq.bedwars.utils.PlayerUtils;
 import org.bukkit.Bukkit;
@@ -27,6 +28,7 @@ public class GamePlayer {
     private boolean spectator;
     private GameScoreboard gameScoreboard;
     private PacketReader packetReader;
+    private StatsUser statsUser;
 
     private GamePlayer(UUID uuid) {
         this.uuid = uuid;
@@ -103,6 +105,14 @@ public class GamePlayer {
 
     public void setPacketReader(PacketReader packetReader) {
         this.packetReader = packetReader;
+    }
+
+    public StatsUser getStatsUser() {
+        return statsUser;
+    }
+
+    public void setStatsUser(StatsUser statsUser) {
+        this.statsUser = statsUser;
     }
 
     public static GamePlayer create(UUID uuid) {

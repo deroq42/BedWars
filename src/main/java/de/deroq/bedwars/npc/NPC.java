@@ -43,9 +43,6 @@ public class NPC extends Reflections {
         create();
     }
 
-    /**
-     * Creates a new npc.
-     */
     private void create() {
         try {
             /* Invoking net.minecraft.server.v1_8_R3.MinecraftServer. */
@@ -76,9 +73,6 @@ public class NPC extends Reflections {
         }
     }
 
-    /**
-     * Spawns a npc.
-     */
     public void spawn() {
         try {
             /* Gets the PacketPlayOutNamedEntitySpawn class and creates a new instance of it with param EntityPlayer. */
@@ -96,9 +90,6 @@ public class NPC extends Reflections {
         }
     }
 
-    /**
-     * Sets the location of the npc.
-     */
     public void setLocation() {
         try {
             /* Gets the class of the npc and invokes the setLocation method with params
@@ -111,9 +102,6 @@ public class NPC extends Reflections {
         }
     }
 
-    /**
-     * Adds a npc to the tablist.
-     */
     public void addToTabList() {
         try {
             Object array = Array.newInstance(getNMSClass("EntityPlayer"), 1);
@@ -136,9 +124,6 @@ public class NPC extends Reflections {
         }
     }
 
-    /**
-     * Removes a npc from the tablist.
-     */
     public void removeFromTabList() {
         try {
             Object array = Array.newInstance(getNMSClass("EntityPlayer"), 1);
@@ -161,9 +146,6 @@ public class NPC extends Reflections {
         }
     }
 
-    /**
-     * Fixes the npcs head direction.
-     */
     public void fixHeadDirection(float yaw, float pitch) {
         try {
             /* Gets inner class PacketPlayOutEntityLook and creates a new instance of it with params int, byte, byte, boolean. */

@@ -4,6 +4,7 @@ import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.events.BedWarsDropOutEvent;
 import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.game.team.models.GameTeamType;
+import de.deroq.bedwars.stats.models.StatsUser;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.GameState;
 import de.deroq.bedwars.utils.PlayerUtils;
@@ -34,26 +35,35 @@ public class PlayerQuitListener implements Listener {
         event.setQuitMessage(null);
 
         Optional<GamePlayer> optionalGamePlayer = bedWars.getGameManager().getGamePlayer(player.getUniqueId());
-        if(!optionalGamePlayer.isPresent()) {
+        if (!optionalGamePlayer.isPresent()) {
             return;
         }
 
         GamePlayer gamePlayer = optionalGamePlayer.get();
         bedWars.getGameManager().getGamePlayers().remove(gamePlayer);
 
-        if(bedWars.getGameManager().getGameState() == GameState.LOBBY) {
+        if (bedWars.getGameManager().getGameState() == GameState.LOBBY) {
             BukkitUtils.sendBroadcastMessage("§e" + player.getName() + " §7hat die Runde verlassen " + BukkitUtils.getOnlinePlayers(bedWars.getGameManager().MAX_PLAYERS), true);
             bedWars.getGameTeamManager().onQuit(gamePlayer);
             return;
         }
 
-        if(bedWars.getGameManager().getGameState() == GameState.INGAME) {
-            if(!gamePlayer.isSpectator()) {
+        if (bedWars.getGameManager().getGameState() == GameState.INGAME) {
+            if (!gamePlayer.isSpectator()) {
                 GameTeamType gameTeamType = gamePlayer.getGameTeam().getGameTeamType();
                 BukkitUtils.sendBroadcastMessage(gameTeamType.getColorCode() + player.getName() + " §7hat die Runde verlassen", true);
                 bedWars.getGameManager().onCombatLog(gamePlayer);
                 Bukkit.getPluginManager().callEvent(new BedWarsDropOutEvent(gamePlayer));
             }
+        }
+
+        if (bedWars.getGameManager().getGameState() != GameState.LOBBY) {
+            StatsUser statsUser = gamePlayer.getStatsUser();
+            if (statsUser == null) {
+                return;
+            }
+
+            bedWars.getStatsManager().updateStatsUser(statsUser);
         }
     }
 }

@@ -6,6 +6,7 @@ import de.deroq.bedwars.game.map.models.GameMap;
 import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
+import de.deroq.bedwars.stats.models.StatsUser;
 import de.deroq.bedwars.utils.BukkitUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,6 +34,10 @@ public class BedWarsDropOutListener implements Listener {
         gameTeam.getPlayers().remove(gamePlayer.getUuid());
         gamePlayer.setGameTeam(null);
         gamePlayer.getPacketReader().eject();
+
+        StatsUser statsUser = gamePlayer.getStatsUser();
+        statsUser.addDeath();
+        bedWars.getStatsManager().updateStatsUser(statsUser);
 
         if(gameTeam.getPlayers().size() != 0) {
             return;
