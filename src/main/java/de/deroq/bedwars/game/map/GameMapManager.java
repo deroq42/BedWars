@@ -10,10 +10,14 @@ import de.deroq.bedwars.npc.NPC;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
 import de.deroq.database.services.mongo.MongoDatabaseServiceMethods;
-import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
 
 public class GameMapManager {
 

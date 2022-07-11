@@ -16,7 +16,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
-public class NPC extends Reflections implements Serializable {
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
+public class NPC extends Reflections {
 
     private final UUID uuid;
     private final String name;
@@ -44,14 +49,10 @@ public class NPC extends Reflections implements Serializable {
     private void create() {
         try {
             /* Invoking net.minecraft.server.v1_8_R3.MinecraftServer. */
-            Object minecraftServer = getCraftBukkitClass("CraftServer")
-                    .getMethod("getServer")
-                    .invoke(Bukkit.getServer());
+            Object minecraftServer = getCraftBukkitClass("CraftServer").getMethod("getServer").invoke(Bukkit.getServer());
 
             /* Invoking net.minecraft.server.v1_8_R3.WorldServer. */
-            Object worldServer = getCraftBukkitClass("CraftWorld")
-                    .getMethod("getHandle")
-                    .invoke(Bukkit.getWorld("world"));
+            Object worldServer = getCraftBukkitClass("CraftWorld").getMethod("getHandle").invoke(Bukkit.getWorld("world"));
 
             /* Gets the PlayerInteractManager class and creates a new instance of it with param WorldServer. */
             Class<?> playerInteractManagerClass = getNMSClass("PlayerInteractManager");
@@ -64,11 +65,7 @@ public class NPC extends Reflections implements Serializable {
                MinecraftServer, WorldServer, GameProfile, PlayerInteractManager. */
             Class<?> entityPlayerClass = getNMSClass("EntityPlayer");
             Constructor<?> entityPlayerConstructor = entityPlayerClass.getDeclaredConstructors()[0];
-            this.npc = entityPlayerConstructor.newInstance(
-                    minecraftServer,
-                    worldServer,
-                    gameProfile,
-                    playerInteractManager);
+            this.npc = entityPlayerConstructor.newInstance(minecraftServer, worldServer, gameProfile, playerInteractManager);
 
             this.entityPlayer = (EntityPlayer) npc;
             setLocation();
@@ -107,13 +104,7 @@ public class NPC extends Reflections implements Serializable {
             /* Gets the class of the npc and invokes the setLocation method with params
                double, double, double, float, float. */
             Class<?> npcClass = npc.getClass();
-            npcClass.getMethod("setLocation", double.class, double.class, double.class, float.class, float.class).invoke(
-                    npc,
-                    location.getX(),
-                    location.getY(),
-                    location.getZ(),
-                    location.getYaw(),
-                    location.getPitch());
+            npcClass.getMethod("setLocation", double.class, double.class, double.class, float.class, float.class).invoke(npc, location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             Bukkit.getLogger().warning("Error while setting location of NPC " + name + ": " + e.getMessage());
             e.printStackTrace();
@@ -124,7 +115,6 @@ public class NPC extends Reflections implements Serializable {
      * Adds a npc to the tablist.
      */
     public void addToTabList() {
-
         try {
             Object array = Array.newInstance(getNMSClass("EntityPlayer"), 1);
             Array.set(array, 0, npc);
@@ -132,16 +122,12 @@ public class NPC extends Reflections implements Serializable {
             /* Gets the PacketPlayOutPlayerInfo class and the inner class EnumPlayerInfoAction to add the npc to the tablist */
             Class<?> packetPlayOutPlayerInfoClass = getNMSClass("PacketPlayOutPlayerInfo");
             Class<?> enumPlayerInfoActionClass = getNMSClass("PacketPlayOutPlayerInfo$EnumPlayerInfoAction");
-            Object addPlayerEnum = enumPlayerInfoActionClass
-                    .getField("ADD_PLAYER")
-                    .get(null);
-
-            Constructor<?> packetPlayOutPlayerInfoConstructor = packetPlayOutPlayerInfoClass.getConstructor(
-                    enumPlayerInfoActionClass,
-                    Class.forName("[Lnet.minecraft.server." + getServerVersion() + ".EntityPlayer;"));
+            Object addPlayerEnum = enumPlayerInfoActionClass.getField("ADD_PLAYER").get(null);
 
             /* Creates a new instance of it with the params EnumPlayerInfoAction, EntityPlayer. */
+            Constructor<?> packetPlayOutPlayerInfoConstructor = packetPlayOutPlayerInfoClass.getConstructor(enumPlayerInfoActionClass, Class.forName("[Lnet.minecraft.server." + getServerVersion() + ".EntityPlayer;"));
             Object packetPlayOutPlayerInfo = packetPlayOutPlayerInfoConstructor.newInstance(addPlayerEnum, array);
+
             sendPacket(packetPlayOutPlayerInfo);
         } catch (NoSuchFieldException | ClassNotFoundException | InvocationTargetException | IllegalAccessException |
                  NoSuchMethodException | InstantiationException e) {
@@ -161,16 +147,12 @@ public class NPC extends Reflections implements Serializable {
             /* Gets the PacketPlayOutPlayerInfo class and the inner class EnumPlayerInfoAction to add the npc to the tablist */
             Class<?> packetPlayOutPlayerInfoClass = getNMSClass("PacketPlayOutPlayerInfo");
             Class<?> enumPlayerInfoActionClass = getNMSClass("PacketPlayOutPlayerInfo$EnumPlayerInfoAction");
-            Object addPlayerEnum = enumPlayerInfoActionClass
-                    .getField("REMOVE_PLAYER")
-                    .get(null);
-
-            Constructor<?> packetPlayOutPlayerInfoConstructor = packetPlayOutPlayerInfoClass.getConstructor(
-                    enumPlayerInfoActionClass,
-                    Class.forName("[Lnet.minecraft.server." + getServerVersion() + ".EntityPlayer;"));
+            Object addPlayerEnum = enumPlayerInfoActionClass.getField("REMOVE_PLAYER").get(null);
 
             /* Creates a new instance of it with the params EnumPlayerInfoAction, EntityPlayer. */
+            Constructor<?> packetPlayOutPlayerInfoConstructor = packetPlayOutPlayerInfoClass.getConstructor(enumPlayerInfoActionClass, Class.forName("[Lnet.minecraft.server." + getServerVersion() + ".EntityPlayer;"));
             Object packetPlayOutPlayerInfo = packetPlayOutPlayerInfoConstructor.newInstance(addPlayerEnum, array);
+
             sendPacket(packetPlayOutPlayerInfo);
         } catch (NoSuchFieldException | ClassNotFoundException | InvocationTargetException | IllegalAccessException |
                  NoSuchMethodException | InstantiationException e) {
@@ -186,29 +168,15 @@ public class NPC extends Reflections implements Serializable {
         try {
             /* Gets inner class PacketPlayOutEntityLook and creates a new instance of it with params int, byte, byte, boolean. */
             Class<?> packetPlayOutEntityLookClass = getNMSClass("PacketPlayOutEntity$PacketPlayOutEntityLook");
-            Constructor<?> packetPlayOutEntityLookConstructor = packetPlayOutEntityLookClass.getConstructor(
-                    int.class,
-                    byte.class,
-                    byte.class,
-                    boolean.class);
+            Constructor<?> packetPlayOutEntityLookConstructor = packetPlayOutEntityLookClass.getConstructor(int.class, byte.class, byte.class, boolean.class);
 
-            Object packetPlayOutEntityLook = packetPlayOutEntityLookConstructor.newInstance(
-                    entityPlayer.getId(),
-                    (byte) ((int) (yaw * 256.0F / 360.0F)),
-                    (byte) ((int) (pitch * 256.0F / 360.0F)),
-                    true);
-
+            Object packetPlayOutEntityLook = packetPlayOutEntityLookConstructor.newInstance(entityPlayer.getId(), (byte) ((int) (yaw * 256.0F / 360.0F)), (byte) ((int) (pitch * 256.0F / 360.0F)), true);
             sendPacket(packetPlayOutEntityLook);
 
             /* Gets the PacketPlayOutEntityHeadRotation class and creates a new instance of it with params EntityPlayer, byte. */
             Class<?> packetPlayOutEntityHeadRotationClass = getNMSClass("PacketPlayOutEntityHeadRotation");
-            Constructor<?> packetPlayOutEntityHeadRotationConstructor = packetPlayOutEntityHeadRotationClass.getConstructor(
-                    getNMSClass("Entity"),
-                    byte.class);
-
-            Object packetPlayOutEntityHeadRotation = packetPlayOutEntityHeadRotationConstructor.newInstance(
-                    entityPlayer,
-                    (byte) ((int) (yaw * 256.0F / 360.0F)));
+            Constructor<?> packetPlayOutEntityHeadRotationConstructor = packetPlayOutEntityHeadRotationClass.getConstructor(getNMSClass("Entity"), byte.class);
+            Object packetPlayOutEntityHeadRotation = packetPlayOutEntityHeadRotationConstructor.newInstance(entityPlayer, (byte) ((int) (yaw * 256.0F / 360.0F)));
 
             sendPacket(packetPlayOutEntityHeadRotation);
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |

@@ -14,6 +14,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class PlayerInteractListener implements Listener {
 
     private final BedWars bedWars;

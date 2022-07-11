@@ -7,6 +7,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class ForceMapCommand extends Command {
 
     private final BedWars bedWars;

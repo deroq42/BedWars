@@ -1,4 +1,4 @@
-package de.deroq.bedwars.config.models;
+package de.deroq.bedwars.config.configs;
 
 import de.deroq.bedwars.config.Config;
 import de.deroq.bedwars.game.shop.category.GameShopCategory;
@@ -8,6 +8,11 @@ import org.bukkit.Material;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
 
 public class ShopCategoriesConfig extends Config {
 

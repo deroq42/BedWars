@@ -3,6 +3,11 @@ package de.deroq.bedwars.utils;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class PlayerUtils {
 
     public static void loadInventory(Player player, GameState gameState) {

@@ -9,6 +9,11 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class SetTeamCountCommand extends Command {
 
     private final BedWars bedWars;

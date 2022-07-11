@@ -5,6 +5,11 @@ import de.deroq.bedwars.npc.NPC;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
+
 public class BedWarsShopInteractEvent extends Event {
 
     public static final HandlerList HANDLERS = new HandlerList();

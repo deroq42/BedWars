@@ -4,6 +4,10 @@ import de.deroq.bedwars.BedWars;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
 public abstract class TimerTask {
 
     protected final BedWars bedWars;

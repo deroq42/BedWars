@@ -12,6 +12,11 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author deroq
+ * @since 08.07.2022
+ */
+
 public abstract class GameScoreboard {
 
     protected final BedWars bedWars;

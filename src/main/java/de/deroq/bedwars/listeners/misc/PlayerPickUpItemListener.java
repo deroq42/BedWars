@@ -11,6 +11,11 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 07.07.2022
+ */
+
 public class PlayerPickUpItemListener implements Listener {
 
     private final BedWars bedWars;

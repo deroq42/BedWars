@@ -4,6 +4,11 @@ import de.deroq.bedwars.game.models.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
+
 public enum GameShopItemPriceType {
 
     BRONZE("§c", "Bronze", new ItemBuilder(Material.CLAY_BRICK).setDisplayName("§cBronze").build()),

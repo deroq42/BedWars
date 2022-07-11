@@ -7,6 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class BukkitUtils {
 
     public static String getOnlinePlayers(int maxPlayers) {

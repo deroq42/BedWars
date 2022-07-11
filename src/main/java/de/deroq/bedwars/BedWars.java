@@ -23,6 +23,11 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class BedWars extends JavaPlugin {
 
     private MongoDatabaseService mongoDatabaseService;

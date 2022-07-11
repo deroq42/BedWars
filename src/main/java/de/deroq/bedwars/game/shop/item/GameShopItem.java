@@ -8,6 +8,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
+
 public class GameShopItem {
 
     private final String name;

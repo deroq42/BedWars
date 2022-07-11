@@ -13,6 +13,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 07.07.2022
+ */
+
 public class BlockPlaceListener implements Listener {
 
     private final BedWars bedWars;

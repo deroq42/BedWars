@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class GameTeam {
 
     private final GameTeamType gameTeamType;

@@ -16,6 +16,11 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
+
 public class PacketReader extends Reflections {
 
     private final BedWars bedWars;

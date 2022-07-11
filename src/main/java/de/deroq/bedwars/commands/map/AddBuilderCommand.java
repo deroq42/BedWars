@@ -9,6 +9,11 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class AddBuilderCommand extends Command {
 
     private final BedWars bedWars;

@@ -18,6 +18,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 07.07.2022
+ */
+
 public class BlockBreakListener implements Listener {
 
     private final BedWars bedWars;

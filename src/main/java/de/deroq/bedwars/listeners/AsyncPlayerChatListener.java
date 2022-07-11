@@ -15,6 +15,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
+
 public class AsyncPlayerChatListener implements Listener {
 
     private final BedWars bedWars;

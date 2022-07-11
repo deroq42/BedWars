@@ -7,6 +7,11 @@ import de.deroq.bedwars.utils.Constants;
 
 import java.text.NumberFormat;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 @Table(keyspace = "bedwars", name = "stats")
 public class StatsUser {
 

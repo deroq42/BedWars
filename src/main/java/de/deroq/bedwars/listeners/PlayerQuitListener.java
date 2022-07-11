@@ -15,6 +15,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class PlayerQuitListener implements Listener {
 
     private final BedWars bedWars;

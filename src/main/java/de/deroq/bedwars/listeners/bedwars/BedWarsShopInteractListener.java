@@ -9,6 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
+
 public class BedWarsShopInteractListener implements Listener {
 
     private final BedWars bedWars;

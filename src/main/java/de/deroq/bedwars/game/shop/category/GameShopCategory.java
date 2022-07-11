@@ -4,6 +4,11 @@ import org.bukkit.Material;
 
 import java.util.List;
 
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
+
 public class GameShopCategory {
 
     private final String name;

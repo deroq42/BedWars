@@ -9,6 +9,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class Constants {
 
     public static final String PREFIX = "§7[§eBedWars§7] ";

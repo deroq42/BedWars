@@ -11,6 +11,11 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.List;
 
+/**
+ * @author deroq
+ * @since 07.07.2022
+ */
+
 public class EntityExplodeListener implements Listener {
 
     private final BedWars bedWars;

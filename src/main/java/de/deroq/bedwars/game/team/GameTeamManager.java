@@ -17,6 +17,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class GameTeamManager {
 
     private final BedWars bedWars;

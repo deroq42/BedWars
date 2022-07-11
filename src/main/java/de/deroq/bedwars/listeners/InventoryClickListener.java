@@ -12,6 +12,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class InventoryClickListener implements Listener {
 
     private final BedWars bedWars;

@@ -7,6 +7,11 @@ import de.deroq.bedwars.game.team.models.GameTeamType;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
+/**
+ * @author deroq
+ * @since 08.07.2022
+ */
+
 public class IngameScoreboard extends GameScoreboard {
 
     public IngameScoreboard(BedWars bedWars) {

@@ -2,6 +2,11 @@ package de.deroq.bedwars.game.team.models;
 
 import org.bukkit.DyeColor;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public enum GameTeamType {
 
     RED("§c", "Rot", DyeColor.RED),

@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * @author deroq
+ * @since 07.07.2022
+ */
+
 public class PlayerLoginListener implements Listener {
 
     private final BedWars bedWars;

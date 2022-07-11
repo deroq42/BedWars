@@ -6,6 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
+/**
+ * @author deroq
+ * @since 08.07.2022
+ */
+
 public class LobbyScoreboard extends GameScoreboard {
 
     public LobbyScoreboard(BedWars bedWars) {

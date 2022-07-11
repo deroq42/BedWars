@@ -11,6 +11,11 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 07.07.2022
+ */
+
 public class PlayerDropItemListener implements Listener {
 
     private final BedWars bedWars;

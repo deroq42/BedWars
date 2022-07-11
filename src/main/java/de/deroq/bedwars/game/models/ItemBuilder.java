@@ -16,6 +16,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class ItemBuilder {
 
     private final ItemStack item;

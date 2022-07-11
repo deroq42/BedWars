@@ -1,4 +1,4 @@
-package de.deroq.bedwars.config.models;
+package de.deroq.bedwars.config.configs;
 
 import de.deroq.bedwars.config.Config;
 import org.bukkit.Material;
@@ -7,6 +7,11 @@ import java.io.File;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
 
 public class BlocksConfig extends Config {
 

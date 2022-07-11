@@ -1,5 +1,10 @@
 package de.deroq.bedwars.game.shop.category;
 
+/**
+ * @author deroq
+ * @since 09.07.2022
+ */
+
 public enum GameShopCategoryType {
 
     BLOCKS("§8Blöcke"),

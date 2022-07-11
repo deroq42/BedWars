@@ -4,6 +4,11 @@ import de.deroq.bedwars.game.models.GamePlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class BedWarsDropOutEvent extends Event {
 
     public static final HandlerList HANDLERS = new HandlerList();

@@ -12,6 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class GameMap {
 
     private String muid;

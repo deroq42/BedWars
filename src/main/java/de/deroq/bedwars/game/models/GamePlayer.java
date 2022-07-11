@@ -14,6 +14,11 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Collection;
 import java.util.UUID;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class GamePlayer {
 
     private final UUID uuid;

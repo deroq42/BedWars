@@ -10,6 +10,11 @@ import de.deroq.bedwars.utils.BukkitUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class BedWarsDropOutListener implements Listener {
 
     private final BedWars bedWars;

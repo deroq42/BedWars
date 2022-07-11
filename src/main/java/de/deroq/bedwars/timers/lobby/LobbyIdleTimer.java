@@ -6,6 +6,11 @@ import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.GameState;
 import org.bukkit.Bukkit;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class LobbyIdleTimer extends TimerTask {
 
     //WHERE THE TIMER STOPS TO COUNT UP

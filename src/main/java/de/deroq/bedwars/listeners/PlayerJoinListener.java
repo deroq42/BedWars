@@ -10,6 +10,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class PlayerJoinListener implements Listener {
 
     private final BedWars bedWars;

@@ -14,7 +14,6 @@ import de.deroq.bedwars.timers.lobby.LobbyIdleTimer;
 import de.deroq.bedwars.timers.lobby.LobbyTimer;
 import de.deroq.bedwars.timers.restart.RestartTimer;
 import de.deroq.bedwars.utils.BukkitUtils;
-import de.deroq.bedwars.utils.Constants;
 import de.deroq.bedwars.utils.GameState;
 
 import de.deroq.bedwars.utils.PlayerUtils;
@@ -28,6 +27,11 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
 
 public class GameManager {
 

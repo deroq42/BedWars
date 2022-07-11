@@ -8,6 +8,11 @@ import org.bukkit.Bukkit;
 
 import java.util.Arrays;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class RestartTimer extends TimerTask {
 
     //WHERE THE TIMER BEGINS

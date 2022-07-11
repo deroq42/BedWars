@@ -10,6 +10,11 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class SetLobbyCommand extends Command {
 
     private final BedWars bedWars;

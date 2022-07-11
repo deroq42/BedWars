@@ -1,4 +1,4 @@
-package de.deroq.bedwars.config.models;
+package de.deroq.bedwars.config.configs;
 
 import de.deroq.bedwars.config.Config;
 import de.deroq.bedwars.utils.BukkitUtils;
@@ -6,6 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.io.File;
+
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
 
 public class SettingsConfig extends Config {
 

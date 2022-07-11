@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class AddTeamCommand extends Command {
 
     private final BedWars bedWars;

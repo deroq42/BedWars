@@ -1,14 +1,19 @@
 package de.deroq.bedwars.config;
 
 import com.google.gson.Gson;
-import de.deroq.bedwars.config.models.BlocksConfig;
-import de.deroq.bedwars.config.models.SettingsConfig;
-import de.deroq.bedwars.config.models.ShopCategoriesConfig;
-import de.deroq.bedwars.config.models.ShopItemsConfig;
+import de.deroq.bedwars.config.configs.BlocksConfig;
+import de.deroq.bedwars.config.configs.SettingsConfig;
+import de.deroq.bedwars.config.configs.ShopCategoriesConfig;
+import de.deroq.bedwars.config.configs.ShopItemsConfig;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.Optional;
+
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
 
 public class FileManager {
 

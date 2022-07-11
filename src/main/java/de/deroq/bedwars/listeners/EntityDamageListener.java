@@ -10,6 +10,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.Optional;
 
+/**
+ * @author deroq
+ * @since 07.07.2022
+ */
+
 public class EntityDamageListener implements Listener {
 
     private final BedWars bedWars;

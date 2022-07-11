@@ -10,6 +10,11 @@ import org.bukkit.Bukkit;
 
 import java.util.Arrays;
 
+/**
+ * @author deroq
+ * @since 06.07.2022
+ */
+
 public class IngameTimer extends TimerTask {
 
     //WHERE THE TIMER STOPS TO COUNT UP
