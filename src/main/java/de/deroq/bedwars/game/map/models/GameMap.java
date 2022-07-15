@@ -31,13 +31,11 @@ public class GameMap {
     private double maxBuildHeight;
 
     /* GAME INTERNAL STUFF */
-
     private List<GameTeam> gameTeams;
     private List<Location> placedBlocks;
     private List<NPC> shops;
 
-    /* Public constructor due to pojo exceptions. */
-    public GameMap(String muid, String serverGroup) {
+    private GameMap(String muid, String serverGroup) {
         this.muid = muid;
         this.serverGroup = serverGroup;
 
@@ -159,5 +157,9 @@ public class GameMap {
 
     public void setShops(List<NPC> shops) {
         this.shops = shops;
+    }
+
+    public static GameMap create(String muid, String serverGroup) {
+        return new GameMap(muid, serverGroup);
     }
 }

@@ -21,13 +21,11 @@ import java.util.concurrent.CompletableFuture;
 
 public class GameMapManager {
 
-    private final BedWars bedWars;
     private final MongoDatabaseServiceMethods databaseServiceMethods;
     private final MongoCollection<GameMap> collection;
     private final Map<String, GameMap> mapCache;
 
     public GameMapManager(BedWars bedWars) {
-        this.bedWars = bedWars;
         this.databaseServiceMethods = bedWars.getMongoDatabaseService().getDatabaseServiceMethods();
         this.collection = bedWars.getMongoDatabaseService().getCollection("bedWarsMaps-" + Constants.SERVER_GROUP, GameMap.class);
         this.mapCache = new HashMap<>();
@@ -49,7 +47,7 @@ public class GameMapManager {
         return databaseServiceMethods.onInsert(
                 collection,
                 Filters.eq("muid", muid),
-                new GameMap(muid, Constants.SERVER_GROUP));
+                GameMap.create(muid, Constants.SERVER_GROUP));
     }
 
     /**
