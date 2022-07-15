@@ -5,12 +5,10 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.npc.utils.Reflections;
-import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +28,7 @@ public class NPC extends Reflections {
     private final Location location;
     private final GameProfile gameProfile;
     private Object npc;
-    private EntityPlayer entityPlayer;
+    private Object id;
 
     private NPC(UUID uuid, String name, String value, String signature, Location location) {
         this.uuid = uuid;
@@ -63,8 +61,8 @@ public class NPC extends Reflections {
             Class<?> entityPlayerClass = getNMSClass("EntityPlayer");
             Constructor<?> entityPlayerConstructor = entityPlayerClass.getDeclaredConstructors()[0];
             this.npc = entityPlayerConstructor.newInstance(minecraftServer, worldServer, gameProfile, playerInteractManager);
+            this.id = getNMSClass("EntityPlayer").getMethod("getId").invoke(npc);
 
-            this.entityPlayer = (EntityPlayer) npc;
             setLocation();
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
                  InstantiationException e) {
@@ -152,13 +150,13 @@ public class NPC extends Reflections {
             Class<?> packetPlayOutEntityLookClass = getNMSClass("PacketPlayOutEntity$PacketPlayOutEntityLook");
             Constructor<?> packetPlayOutEntityLookConstructor = packetPlayOutEntityLookClass.getConstructor(int.class, byte.class, byte.class, boolean.class);
 
-            Object packetPlayOutEntityLook = packetPlayOutEntityLookConstructor.newInstance(entityPlayer.getId(), (byte) ((int) (yaw * 256.0F / 360.0F)), (byte) ((int) (pitch * 256.0F / 360.0F)), true);
+            Object packetPlayOutEntityLook = packetPlayOutEntityLookConstructor.newInstance((int) id, (byte) ((int) (yaw * 256.0F / 360.0F)), (byte) ((int) (pitch * 256.0F / 360.0F)), true);
             sendPacket(packetPlayOutEntityLook);
 
             /* Gets the PacketPlayOutEntityHeadRotation class and creates a new instance of it with params EntityPlayer, byte. */
             Class<?> packetPlayOutEntityHeadRotationClass = getNMSClass("PacketPlayOutEntityHeadRotation");
             Constructor<?> packetPlayOutEntityHeadRotationConstructor = packetPlayOutEntityHeadRotationClass.getConstructor(getNMSClass("Entity"), byte.class);
-            Object packetPlayOutEntityHeadRotation = packetPlayOutEntityHeadRotationConstructor.newInstance(entityPlayer, (byte) ((int) (yaw * 256.0F / 360.0F)));
+            Object packetPlayOutEntityHeadRotation = packetPlayOutEntityHeadRotationConstructor.newInstance(npc, (byte) ((int) (yaw * 256.0F / 360.0F)));
 
             sendPacket(packetPlayOutEntityHeadRotation);
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
@@ -191,8 +189,8 @@ public class NPC extends Reflections {
         return gameProfile;
     }
 
-    public EntityPlayer getEntityPlayer() {
-        return entityPlayer;
+    public int getId() {
+        return (int) id;
     }
 
     public static class builder {

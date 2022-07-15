@@ -3,6 +3,7 @@ package de.deroq.bedwars.commands.game;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.utils.Constants;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,17 +12,16 @@ import org.bukkit.entity.Player;
  * @since 11.07.2022
  */
 
-public class StatsCommand extends Command {
+public class StatsCommand implements CommandExecutor {
 
     private final BedWars bedWars;
 
-    public StatsCommand(String name, BedWars bedWars) {
-        super(name);
+    public StatsCommand(BedWars bedWars) {
         this.bedWars = bedWars;
     }
 
     @Override
-    public boolean execute(CommandSender commandSender, String s, String[] args) {
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (!(commandSender instanceof Player)) {
             return true;
         }

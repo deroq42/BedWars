@@ -7,12 +7,8 @@ import de.deroq.bedwars.game.shop.category.GameShopCategoryType;
 import de.deroq.bedwars.game.shop.item.GameShopItem;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
-import net.minecraft.server.v1_8_R3.ItemArmor;
-import net.minecraft.server.v1_8_R3.ItemPickaxe;
-import net.minecraft.server.v1_8_R3.ItemSword;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
@@ -272,7 +268,7 @@ public class GameShopManager {
      * @return true if the item is a sword.
      */
     private boolean isSword(GameShopItem shopItem) {
-        return CraftItemStack.asNMSCopy(new ItemStack(shopItem.getMaterial())).getItem() instanceof ItemSword;
+        return shopItem.getMaterial().toString().endsWith("SWORD");
     }
 
     /**
@@ -282,7 +278,10 @@ public class GameShopManager {
      * @return true if the item is an armor.
      */
     private boolean isArmor(GameShopItem shopItem) {
-        return CraftItemStack.asNMSCopy(new ItemStack(shopItem.getMaterial())).getItem() instanceof ItemArmor;
+        return shopItem.getMaterial().toString().endsWith("HELMET") ||
+                shopItem.getMaterial().toString().endsWith("LEGGINGS") ||
+                shopItem.getMaterial().toString().endsWith("CHESTPLATE") ||
+                shopItem.getMaterial().toString().endsWith("BOOTS");
     }
 
     /**
@@ -292,7 +291,7 @@ public class GameShopManager {
      * @return true if the item is a pickaxe.
      */
     private boolean isPickaxe(GameShopItem shopItem) {
-        return CraftItemStack.asNMSCopy(new ItemStack(shopItem.getMaterial())).getItem() instanceof ItemPickaxe;
+        return shopItem.getMaterial().toString().endsWith("PICKAXE");
     }
 
     /**

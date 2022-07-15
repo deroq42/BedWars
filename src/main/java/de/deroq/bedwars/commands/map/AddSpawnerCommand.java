@@ -7,6 +7,7 @@ import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
 import org.apache.commons.lang3.EnumUtils;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,17 +20,16 @@ import java.util.List;
  * @since 06.07.2022
  */
 
-public class AddSpawnerCommand extends Command {
+public class AddSpawnerCommand implements CommandExecutor {
 
     private final BedWars bedWars;
 
-    public AddSpawnerCommand(String name, BedWars bedWars) {
-        super(name);
+    public AddSpawnerCommand(BedWars bedWars) {
         this.bedWars = bedWars;
     }
 
     @Override
-    public boolean execute(CommandSender commandSender, String s, String[] args) {
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (!(commandSender instanceof Player)) {
             return true;
         }

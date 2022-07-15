@@ -37,7 +37,6 @@ public class BedWarsDropOutListener implements Listener {
 
         StatsUser statsUser = gamePlayer.getStatsUser();
         statsUser.addDeath();
-        bedWars.getStatsManager().updateStatsUser(statsUser);
 
         if(gameTeam.getPlayers().size() != 0) {
             return;

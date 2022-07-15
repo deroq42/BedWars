@@ -65,7 +65,7 @@ public class PacketReader extends Reflections {
         Bukkit.getScheduler().runTask(bedWars, () -> {
             Optional<NPC> optionalNPC = bedWars.getGameManager().getCurrentGameMap().getShops()
                     .stream()
-                    .filter(npc -> npc.getEntityPlayer().getId() == id)
+                    .filter(npc -> npc.getId() == id)
                     .findFirst();
 
             if (!optionalNPC.isPresent()) {

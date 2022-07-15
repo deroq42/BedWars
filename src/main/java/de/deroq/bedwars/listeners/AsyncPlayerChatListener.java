@@ -3,7 +3,6 @@ package de.deroq.bedwars.listeners;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.game.team.models.GameTeam;
-import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
 import de.deroq.bedwars.utils.GameState;

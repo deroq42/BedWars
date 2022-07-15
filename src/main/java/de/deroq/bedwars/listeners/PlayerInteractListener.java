@@ -5,7 +5,6 @@ import de.deroq.bedwars.utils.Constants;
 import de.deroq.bedwars.utils.GameState;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Hopper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -40,7 +40,7 @@ public class GameManager {
     private GameState gameState;
     private TimerTask currentTimer;
     private GameMap currentGameMap;
-    private Collection<GamePlayer> gamePlayers;
+    private final Collection<GamePlayer> gamePlayers;
     private boolean forceStarted;
     private boolean forceMapped;
 
@@ -316,10 +316,6 @@ public class GameManager {
 
     public Collection<GamePlayer> getGamePlayers() {
         return gamePlayers;
-    }
-
-    public void setGamePlayers(Collection<GamePlayer> gamePlayers) {
-        this.gamePlayers = gamePlayers;
     }
 
     public Optional<GamePlayer> getGamePlayer(UUID uuid) {

@@ -3,6 +3,7 @@ package de.deroq.bedwars.commands.map;
 import de.deroq.bedwars.BedWars;
 import de.deroq.bedwars.utils.Constants;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,17 +12,16 @@ import org.bukkit.entity.Player;
  * @since 06.07.2022
  */
 
-public class CreateMapCommand extends Command {
+public class CreateMapCommand implements CommandExecutor {
 
     private final BedWars bedWars;
 
-    public CreateMapCommand(String name, BedWars bedWars) {
-        super(name);
+    public CreateMapCommand(BedWars bedWars) {
         this.bedWars = bedWars;
     }
 
     @Override
-    public boolean execute(CommandSender commandSender, String s, String[] args) {
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (!(commandSender instanceof Player)) {
             return true;
         }

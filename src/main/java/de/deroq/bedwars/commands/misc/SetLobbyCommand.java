@@ -5,6 +5,7 @@ import de.deroq.bedwars.utils.BukkitUtils;
 import de.deroq.bedwars.utils.Constants;
 
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,17 +16,16 @@ import java.io.IOException;
  * @since 06.07.2022
  */
 
-public class SetLobbyCommand extends Command {
+public class SetLobbyCommand implements CommandExecutor {
 
     private final BedWars bedWars;
 
-    public SetLobbyCommand(String name, BedWars bedWars) {
-        super(name);
+    public SetLobbyCommand(BedWars bedWars) {
         this.bedWars = bedWars;
     }
 
     @Override
-    public boolean execute(CommandSender commandSender, String s, String[] args) {
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(!(commandSender instanceof Player)) {
             return true;
         }

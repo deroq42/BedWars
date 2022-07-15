@@ -5,6 +5,7 @@ import de.deroq.bedwars.game.team.models.GameTeamType;
 import de.deroq.bedwars.utils.Constants;
 import org.apache.commons.lang3.EnumUtils;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,17 +18,16 @@ import java.util.List;
  * @since 06.07.2022
  */
 
-public class AddTeamCommand extends Command {
+public class AddTeamCommand implements CommandExecutor {
 
     private final BedWars bedWars;
 
-    public AddTeamCommand(String name, BedWars bedWars) {
-        super(name);
+    public AddTeamCommand(BedWars bedWars) {
         this.bedWars = bedWars;
     }
 
     @Override
-    public boolean execute(CommandSender commandSender, String s, String[] args) {
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (!(commandSender instanceof Player)) {
             return true;
         }

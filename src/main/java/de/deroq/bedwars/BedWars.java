@@ -23,8 +23,6 @@ import de.deroq.database.services.cassandra.CassandraDatabaseService;
 import de.deroq.database.services.mongo.MongoDatabaseService;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -131,30 +129,29 @@ public class BedWars extends JavaPlugin {
     }
 
     private void registerCommands() {
-        SimpleCommandMap commandMap = ((CraftServer) Bukkit.getServer()).getCommandMap();
         /* GAME */
-        commandMap.register("start", new StartCommand("start", this));
-        commandMap.register("forcemap", new ForceMapCommand("forcemap", this));
-        commandMap.register("stats", new StatsCommand("stats", this));
+        getCommand("start").setExecutor(new StartCommand(this));
+        getCommand("forcemap").setExecutor(new ForceMapCommand(this));
+        getCommand("stats").setExecutor(new StatsCommand(this));
 
         /* MAP */
-        commandMap.register("createMap", new CreateMapCommand("createMap", this));
-        commandMap.register("deleteMap", new DeleteMapCommand("deleteMap", this));
-        commandMap.register("setSpectator", new SetSpectatorCommand("setSpectator", this));
-        commandMap.register("addBuilder", new AddBuilderCommand("addBuilder", this));
-        commandMap.register("addTeam", new AddTeamCommand("addTeam", this));
-        commandMap.register("setSpawn", new SetSpawnCommand("setSpawn", this));
-        commandMap.register("setBed", new SetBedCommand("setBed", this));
-        commandMap.register("addSpawner", new AddSpawnerCommand("addSpawner", this));
-        commandMap.register("addShop", new AddShopCommand("addShop", this));
-        commandMap.register("setMaxBuildHeight", new SetMaxBuildHeightCommand("setMaxBuildHeight", this));
+        getCommand("createMap").setExecutor(new CreateMapCommand(this));
+        getCommand("deleteMap").setExecutor(new DeleteMapCommand(this));
+        getCommand("setSpectator").setExecutor(new SetSpectatorCommand(this));
+        getCommand("addBuilder").setExecutor(new AddBuilderCommand(this));
+        getCommand("addTeam").setExecutor(new AddTeamCommand(this));
+        getCommand("setSpawn").setExecutor(new SetSpawnCommand(this));
+        getCommand("setBed").setExecutor(new SetBedCommand(this));
+        getCommand("addSpawner").setExecutor(new AddSpawnerCommand(this));
+        getCommand("addShop").setExecutor(new AddShopCommand(this));
+        getCommand("setMaxBuildHeight").setExecutor(new SetMaxBuildHeightCommand(this));
 
         /* MISC */
-        commandMap.register("setLobby", new SetLobbyCommand("setLobby", this));
-        commandMap.register("setMinPlayers", new SetMinPlayersCommand("setMinPlayers", this));
-        commandMap.register("setMaxPlayers", new SetMaxPlayersCommand("setMaxPlayers", this));
-        commandMap.register("setTeamSize", new SetTeamSizeCommand("setTeamSize", this));
-        commandMap.register("setTeamCount", new SetTeamCountCommand("setTeamCount", this));
+        getCommand("setLobby").setExecutor(new SetLobbyCommand(this));
+        getCommand("setMinPlayers").setExecutor(new SetMinPlayersCommand(this));
+        getCommand("setMaxPlayers").setExecutor(new SetMaxPlayersCommand(this));
+        getCommand("setTeamSize").setExecutor(new SetTeamSizeCommand(this));
+        getCommand("setTeamCount").setExecutor(new SetTeamCountCommand(this));
     }
 
     public MongoDatabaseService getMongoDatabaseService() {

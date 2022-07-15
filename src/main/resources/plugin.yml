@@ -2,3 +2,22 @@ name: BedWars
 version: 1.0
 author: deroq
 main: de.deroq.bedwars.BedWars
+commands:
+  forcemap:
+  start:
+  stats:
+  createMap:
+  deleteMap:
+  addBuilder:
+  addShop:
+  addSpawner:
+  addTeam:
+  setBed:
+  setMaxBuildHeight:
+  setSpawn:
+  setSpectator:
+  setLobby:
+  setMaxPlayers:
+  setMinPlayers:
+  setTeamCount:
+  setTeamSize:
