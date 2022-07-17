@@ -1,7 +1,7 @@
 package de.deroq.bedwars.game.scoreboard;
 
 import de.deroq.bedwars.BedWars;
-import de.deroq.bedwars.game.team.models.GameTeam;
+import de.deroq.bedwars.game.models.GamePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public abstract class GameScoreboard {
     protected final BedWars bedWars;
     protected final Scoreboard scoreboard;
     protected final Objective objective;
-    protected final Map<GameTeam, String> usedEntries;
+    protected final Map<Object, String> usedEntries;
 
     public GameScoreboard(BedWars bedWars) {
         this.bedWars = bedWars;
@@ -34,7 +34,7 @@ public abstract class GameScoreboard {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
-    public abstract void setScoreboard(Player player);
+    public abstract void setScoreboard(GamePlayer gamePlayer);
 
     public abstract void setTablist();
 
@@ -42,8 +42,9 @@ public abstract class GameScoreboard {
 
     public abstract void updateTablist();
 
-    public void destroy(Player player) {
-        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+    public void destroy(GamePlayer gamePlayer) {
+        gamePlayer.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        gamePlayer.setGameScoreboard(null);
     }
 
     public String getFreeEntry() {
@@ -67,7 +68,7 @@ public abstract class GameScoreboard {
         return objective;
     }
 
-    public Map<GameTeam, String> getUsedEntries() {
+    public Map<Object, String> getUsedEntries() {
         return usedEntries;
     }
 }

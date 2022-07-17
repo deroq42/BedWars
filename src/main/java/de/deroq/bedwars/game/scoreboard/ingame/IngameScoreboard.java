@@ -1,6 +1,7 @@
 package de.deroq.bedwars.game.scoreboard.ingame;
 
 import de.deroq.bedwars.BedWars;
+import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.game.scoreboard.GameScoreboard;
 import de.deroq.bedwars.game.team.models.GameTeam;
 import de.deroq.bedwars.game.team.models.GameTeamType;
@@ -19,7 +20,7 @@ public class IngameScoreboard extends GameScoreboard {
     }
 
     @Override
-    public void setScoreboard(Player player) {
+    public void setScoreboard(GamePlayer gamePlayer) {
         bedWars.getGameManager().getCurrentGameMap().getGameTeams().forEach(gameTeam -> {
             GameTeamType gameTeamType = gameTeam.getGameTeamType();
             Team team = scoreboard.registerNewTeam("bed-" + gameTeamType.getName());
@@ -35,21 +36,22 @@ public class IngameScoreboard extends GameScoreboard {
         });
 
         objective.getScore("§5").setScore(bedWars.getGameManager().TEAM_SIZE + 1);
-        player.setScoreboard(scoreboard);
+        gamePlayer.setGameScoreboard(this);
+        gamePlayer.getPlayer().setScoreboard(scoreboard);
     }
 
     @Override
     public void setTablist() {
         bedWars.getGameManager().getCurrentGameMap().getGameTeams().forEach(gameTeam -> {
             GameTeamType gameTeamType = gameTeam.getGameTeamType();
-            Team team = scoreboard.registerNewTeam("tablist-" + gameTeamType.getName());
             String name = gameTeamType.getName();
             String colorCode = gameTeamType.getColorCode();
+            Team team = scoreboard.registerNewTeam("tab-" + name);
 
             team.setPrefix(colorCode + name + " §7| " + colorCode);
         });
 
-        Team spectatorTeam = scoreboard.registerNewTeam("tablist-spec");
+        Team spectatorTeam = scoreboard.registerNewTeam("tab-spec");
         spectatorTeam.setPrefix("§7");
 
         bedWars.getGameManager().getGamePlayers().forEach(gamePlayer -> {
@@ -62,9 +64,10 @@ public class IngameScoreboard extends GameScoreboard {
             } else {
                 GameTeamType gameTeamType = gameTeam.getGameTeamType();
                 String name = gameTeamType.getName();
+                String colorCode = gameTeamType.getColorCode();
 
-                scoreboard.getTeam("tablist-" + name).addEntry(player.getName());
-                player.setDisplayName(gameTeamType.getColorCode() + player.getName());
+                scoreboard.getTeam("tab-" + name).addEntry(player.getName());
+                player.setDisplayName(colorCode + player.getName());
             }
         });
     }
@@ -84,7 +87,7 @@ public class IngameScoreboard extends GameScoreboard {
 
     @Override
     public void updateTablist() {
-        Team spectatorTeam = scoreboard.getTeam("tablist-spec");
+        Team spectatorTeam = scoreboard.getTeam("tab-spec");
         if (spectatorTeam == null) {
             return;
         }
@@ -98,7 +101,7 @@ public class IngameScoreboard extends GameScoreboard {
                 player.setDisplayName(spectatorTeam.getPrefix() + player.getName());
             } else {
                 GameTeamType gameTeamType = gameTeam.getGameTeamType();
-                scoreboard.getTeam("tablist-" + gameTeamType.getName()).addEntry(player.getName());
+                scoreboard.getTeam("tab-" + gameTeamType.getName()).addEntry(player.getName());
                 player.setDisplayName(gameTeamType.getColorCode() + player.getName());
             }
         });

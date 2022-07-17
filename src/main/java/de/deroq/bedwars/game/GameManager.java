@@ -270,16 +270,14 @@ public class GameManager {
 
     public void setLobbyScoreboard(GamePlayer gamePlayer) {
         LobbyScoreboard lobbyScoreboard = new LobbyScoreboard(bedWars);
-        lobbyScoreboard.setScoreboard(gamePlayer.getPlayer());
+        lobbyScoreboard.setScoreboard(gamePlayer);
         lobbyScoreboard.setTablist();
-        gamePlayer.setGameScoreboard(lobbyScoreboard);
     }
 
     public void setIngameScoreboard(GamePlayer gamePlayer) {
         IngameScoreboard ingameScoreboard = new IngameScoreboard(bedWars);
-        ingameScoreboard.setScoreboard(gamePlayer.getPlayer());
+        ingameScoreboard.setScoreboard(gamePlayer);
         ingameScoreboard.setTablist();
-        gamePlayer.setGameScoreboard(ingameScoreboard);
     }
 
     public void updateScoreboard() {

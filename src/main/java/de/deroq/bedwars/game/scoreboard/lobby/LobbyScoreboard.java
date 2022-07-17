@@ -1,6 +1,7 @@
 package de.deroq.bedwars.game.scoreboard.lobby;
 
 import de.deroq.bedwars.BedWars;
+import de.deroq.bedwars.game.models.GamePlayer;
 import de.deroq.bedwars.game.scoreboard.GameScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ public class LobbyScoreboard extends GameScoreboard {
     }
 
     @Override
-    public void setScoreboard(Player player) {
+    public void setScoreboard(GamePlayer gamePlayer) {
         Team mapTeam = scoreboard.registerNewTeam("map");
         mapTeam.setPrefix("§fMap: ");
         mapTeam.addEntry("§e");
@@ -29,7 +30,8 @@ public class LobbyScoreboard extends GameScoreboard {
         objective.getScore("§fGröße: §b" + bedWars.getGameManager().TEAM_COUNT + "x" + bedWars.getGameManager().TEAM_SIZE).setScore(1);
         objective.getScore("§a").setScore(0);
 
-        player.setScoreboard(scoreboard);
+        gamePlayer.setGameScoreboard(this);
+        gamePlayer.getPlayer().setScoreboard(scoreboard);
     }
 
     @Override
@@ -54,6 +56,10 @@ public class LobbyScoreboard extends GameScoreboard {
     @Override
     public void updateScoreboard() {
         Team mapTeam = scoreboard.getTeam("map");
+        if(mapTeam == null) {
+            return;
+        }
+
         mapTeam.setPrefix("§fMap: ");
         mapTeam.setSuffix("§e" + bedWars.getGameManager().getCurrentGameMap().getMuid());
     }
